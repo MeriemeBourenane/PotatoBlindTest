@@ -83,8 +83,8 @@ public class ControllerClient extends Application {
         /**
          * TODO: Replace those values
          */
-        Game game1 = new Game("Ma groffPatate", 42);
-        Game game2 = new Game("Ma groffPatate 2", 2);
+        Game game1 = new Game("Ma groffPatate", 42, "192.168.1.2", 5000);
+        Game game2 = new Game("Ma groffPatate 2", 2,"192.168.1.2", 5000);
         loader.<SearchGamesController>getController().setGameValue(List.of(game1, game2));
 
         ControllerClient.showScene();
