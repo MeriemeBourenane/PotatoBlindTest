@@ -1,5 +1,8 @@
 package io.potatoBlindTest.network.handlerMessage.clientNetwork.serverTypesMessages;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public enum ServerMessageType {
 
     // -------------------- Error Client --------------------
@@ -28,5 +31,18 @@ public enum ServerMessageType {
 
     public int getValue() {
         return value;
+    }
+
+
+    private static final Map<Integer, ServerMessageType> BY_LABEL = new HashMap<>();
+
+    static {
+        for (ServerMessageType e: values()) {
+            BY_LABEL.put(e.getValue(), e);
+        }
+    }
+
+    public static ServerMessageType valueOfLabel(Integer code) {
+        return BY_LABEL.get(code);
     }
 }
