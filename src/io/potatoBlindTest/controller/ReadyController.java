@@ -1,5 +1,6 @@
 package io.potatoBlindTest.controller;
 
+import io.potatoBlindTest.gameEngine.TurnResult;
 import io.potatoBlindTest.network.communication.Message;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -32,13 +33,18 @@ public class ReadyController implements UIController {
         this.playerNameLabel.setText(playerName);
     }
 
-    public void setTurnWinner(String turnWinner) {
-        this.wonTurnLabel.setText(turnWinner);
-        this.wonTurnLabel.setVisible(true);
-    }
-
     @Override
     public void handleMessage(Message incomingMessage) {
         return;
+    }
+
+    public void setTurnResult(TurnResult turnResult) {
+        if (playerNameLabel.getText().equals(turnResult.getTurnWinner())) {
+            this.wonTurnLabel.setText("Félicitation, vous avez remporté le tour !");
+        } else {
+            this.wonTurnLabel.setText("La réponse était " + turnResult.getAnswer() +
+                    " et c'est " + turnResult.getTurnWinner() + " qui l'a trouvé !");
+        }
+        this.wonTurnLabel.setVisible(true);
     }
 }

@@ -2,6 +2,7 @@ package io.potatoBlindTest.controller;
 
 import io.potatoBlindTest.gameEngine.Game;
 import io.potatoBlindTest.gameEngine.Player;
+import io.potatoBlindTest.gameEngine.TurnResult;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -89,13 +90,13 @@ public class ControllerClient extends Application {
 
     }
 
-    public static void initializeReadyView(String playerName, String turnWinner) {
+    public static void initializeReadyView(String playerName, TurnResult turnResult) {
 
         FXMLLoader loader = ControllerClient.changeScene("resources/readyView.fxml");
 
         loader.<ReadyController>getController().setPlayerName(playerName);
-        if (turnWinner != null) {
-            loader.<ReadyController>getController().setTurnWinner(turnWinner);
+        if (turnResult != null) {
+            loader.<ReadyController>getController().setTurnResult(turnResult);
         }
 
         ControllerClient.showScene();

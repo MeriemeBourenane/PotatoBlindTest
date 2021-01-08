@@ -1,5 +1,6 @@
 package io.potatoBlindTest.controller;
 
+import io.potatoBlindTest.gameEngine.TurnResult;
 import io.potatoBlindTest.network.communication.Message;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -31,7 +32,7 @@ public class TurnController implements UIController {
                 ControllerClient.initializeScoreView(playerNameLabel.getText());
                 break;
             case ESCAPE:
-                ControllerClient.initializeReadyView(playerNameLabel.getText(), "Ma groff Patate a gagné");
+                ControllerClient.initializeReadyView(playerNameLabel.getText(), new TurnResult("Patate", "MagroffPatate"));
                 break;
             case C:
                 this.answerField.getStyleClass().add("wrong");
