@@ -53,4 +53,8 @@ public class Player implements Serializable {
     public void setSocket(Socket socket) {
         this.socket = socket;
     }
+
+    public Integer getRank() {
+        return rank;
+    }
 }
