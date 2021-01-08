@@ -4,6 +4,8 @@ import io.potatoBlindTest.gameEngine.Player;
 import io.potatoBlindTest.gameEngine.TableScore;
 import io.potatoBlindTest.gameEngine.TurnResult;
 import io.potatoBlindTest.network.communication.Message;
+import io.potatoBlindTest.network.communication.MessageAttachment;
+import io.potatoBlindTest.network.handlerMessage.clientNetwork.serverTypesMessages.ServerMessageType;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -77,5 +79,25 @@ public class TurnController implements UIController {
     @Override
     public void handleMessage(Message incomingMessage) {
         // TODO: Handle EndTurn and EndGame messages
+
+        switch (ServerMessageType.valueOfLabel(incomingMessage.getCode())) {
+            case TURN_FILE:
+                System.out.println("[DEBUG] Received turn file");
+                System.out.println("[DEBUG] Not Implemented");
+                break;
+            case TURN_RESULT:
+                System.out.println("[DEBUG] Received end of turn");
+                TurnResult turnResult = ((MessageAttachment<TurnResult>)incomingMessage).getAttachment();
+                ControllerClient.initializeReadyView(playerNameLabel.getText(), turnResult);
+                break;
+            case END_GAME_RESULTS:
+                System.out.println("[DEBUG] Received end of game");
+                TableScore tableScore = ((MessageAttachment<TableScore>)incomingMessage).getAttachment();
+                ControllerClient.initializeScoreView(playerNameLabel.getText(), tableScore);
+                break;
+            default:
+                System.out.println("Unwanted message");
+                break;
+        }
     }
 }
