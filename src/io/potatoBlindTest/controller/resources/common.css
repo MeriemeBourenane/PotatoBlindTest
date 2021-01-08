@@ -3,6 +3,7 @@
     -fx-color-blindtest-violet: #B42573;
     -fx-color-blindtest-green: #C3D600;
     -fx-color-blindtest-orange: #d69600;
+    -fx-color-blindtest-blue: #2f90d1;
 
     -fx-application-background-color: #F7F7F7;
     -fx-application-font-color: #FFFFFF;
@@ -49,8 +50,18 @@
     -fx-fill: -fx-application-color;
     -fx-font-weight: bold;
 }
+
+.button:pressed {
+    -fx-background-color: gray;
+}
+
 .green-button {
     -fx-background-color: -fx-color-blindtest-green;
+}
+
+.blue-button {
+    -fx-background-color: -fx-color-blindtest-blue;
+
 }
 .orange-button {
     -fx-background-color: -fx-color-blindtest-orange;
