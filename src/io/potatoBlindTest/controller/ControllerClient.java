@@ -53,6 +53,15 @@ public class ControllerClient extends Application {
     public static void showScene() {
         ControllerClient.getPrimaryStage().show();
     }
+
+    public static void initializeCreateGameView(String playerName) {
+        FXMLLoader loader = ControllerClient.changeScene("resources/createGameView.fxml");
+
+        loader.<CreateGameController>getController().setPlayerName(playerName);
+
+        ControllerClient.showScene();
+
+    }
     /**
      * Display the welcome menu
      *
