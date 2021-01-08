@@ -38,6 +38,7 @@ public class ControllerClient extends Application {
             } else {
                 scene = new Scene(loader.load());
                 ControllerClient.getPrimaryStage().setScene(scene);
+                ControllerClient.getPrimaryStage().setOnCloseRequest(e -> shutdown());
             }
 
         } catch (IOException e) {
@@ -52,6 +53,11 @@ public class ControllerClient extends Application {
      */
     public static void showScene() {
         ControllerClient.getPrimaryStage().show();
+    }
+
+    public static void shutdown() {
+        // TODO: Close all resources
+        System.out.println("[DEBUG] Application closed");
     }
 
     public static void initializeCreateGameView(String playerName) {
