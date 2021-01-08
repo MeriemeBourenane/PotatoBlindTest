@@ -3,6 +3,7 @@ package io.potatoBlindTest.network;
 import io.potatoBlindTest.utils.NetworkUtils;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.*;
@@ -25,7 +26,7 @@ public class ServerNetwork {
 
         this.exectutorService = Executors.newFixedThreadPool(7);
         this.completionService = new ExecutorCompletionService<>(this.exectutorService);
-        this.serverSocket = new ServerSocket(50_000);
+        this.serverSocket = new ServerSocket(50_200);
 
         Thread threadReadMessage = new Thread(() -> this.runServer());
         threadReadMessage.start();
@@ -54,11 +55,16 @@ public class ServerNetwork {
     /**
      * Method to run the Server Network
      */
-    protected void runServer() {
+    public void runServer() {
 
         while (true) {
             try {
+                System.out.println("Server Network is running on  port " + this.serverSocket.getLocalPort() +
+                        " at ip address " + InetAddress.getLocalHost().getHostAddress());
+
                 Socket socketClient = this.serverSocket.accept();
+
+                System.out.println("Server as accepted a new client ... ");
 
                 // Lance un thread par Socket client
                 ClientHandler clientHandler = new ClientHandler(socketClient, clientHandlers, serverGames);

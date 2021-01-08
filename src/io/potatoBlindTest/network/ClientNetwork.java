@@ -2,6 +2,7 @@ package io.potatoBlindTest.network;
 
 import io.potatoBlindTest.controller.ControllerClient;
 import io.potatoBlindTest.network.communication.Message;
+import io.potatoBlindTest.network.communication.MessageAttachment;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -14,21 +15,29 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class ClientNetwork {
 
-    final Socket socket;
-    final InetAddress ip;
+    private Socket socket;
+    private InetAddress ip;
     // test local
-    final int serverPort = 50_000;
+    private int serverPort = 50_200;
 
     // port Serveur Ubuntu :
     // final int serverPort = 40_000;
     private ObjectInputStream ois;
     private ObjectOutputStream oos;
+    private Thread threadReadMessage;
     private Message response;
 
     private final Lock lock = new ReentrantLock();
     private final Condition condition = lock.newCondition();
 
     private ControllerClient controllerClient;
+
+    public ClientNetwork() throws IOException {
+        this.controllerClient = controllerClient;
+        this.ip = InetAddress.getByName("127.0.0.1");
+        this.socket = new Socket(ip, serverPort);
+        this.runClient();
+    }
 
     public ClientNetwork(ControllerClient controllerClient) throws IOException {
         this.controllerClient = controllerClient;
@@ -45,10 +54,11 @@ public class ClientNetwork {
             oos = new ObjectOutputStream(socket.getOutputStream());
             ois = new ObjectInputStream(socket.getInputStream());
 
-            Thread threadReadMessage = new Thread(() -> this.readContinuouslyMessages());
+            threadReadMessage = new Thread(() -> this.readContinuouslyMessages());
             threadReadMessage.start();
+
         } catch (IOException e) {
-            System.out.println("Can't run the client : IO ...");
+            System.out.println("Can't run the client : IO ... ");
         }
     }
 
@@ -71,12 +81,17 @@ public class ClientNetwork {
         }
 
         // Waiting until response variable is set
+        System.out.println("Waiting until the response varibale is set ...");
         this.lock.lock();
         this.condition.await();
         if (this.response == null) {
             System.out.println("sendMessage An error occurred : response null");
         } else {
-            response = new Message(this.response);
+            if (this.response.hasAttachment()) {
+                response = new MessageAttachment((MessageAttachment) this.response);
+            } else {
+                response = new Message(this.response);
+            }
         }
         this.response = null;
         this.lock.unlock();
@@ -109,10 +124,36 @@ public class ClientNetwork {
                 }
             } catch (IOException | ClassNotFoundException e) {
                 System.out.println("SERVER CLOSED !");
-                e.printStackTrace();
 
                 break;
             }
         }
+    }
+
+    public void changeConnnection(int port, String ipAddress) {
+        // Change the conneciton with the server : connect to Server Game
+        // - stop the Thread that read continuously messages
+        // - set attributs ip, serverPort and socket
+        // - run the client network
+        this.threadReadMessage.interrupt();
+        try {
+            this.ois.close();
+            this.oos.close();
+            this.socket.close();
+
+            this.ip = InetAddress.getByName(ipAddress);
+            this.serverPort = port;
+            this.socket = new Socket(ip, port);
+
+            this.runClient();
+        } catch (IOException e) {
+            System.out.println("Closing the IO streams and the socket ...");
+            e.printStackTrace();
+        }
+
+    }
+
+    public Socket getSocket() {
+        return socket;
     }
 }
