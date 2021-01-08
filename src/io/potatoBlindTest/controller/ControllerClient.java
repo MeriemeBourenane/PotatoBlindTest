@@ -91,6 +91,13 @@ public class ControllerClient extends Application {
 
     }
 
+    public static void initializeTurnView(String playerName) {
+        FXMLLoader loader = ControllerClient.changeScene("resources/turnView.fxml");
+
+        loader.<TurnController>getController().setPlayerName(playerName);
+
+        ControllerClient.showScene();
+    }
     /**
      * Display the welcome menu
      *
