@@ -2,6 +2,7 @@ package io.potatoBlindTest.controller;
 
 import io.potatoBlindTest.gameEngine.Game;
 import io.potatoBlindTest.gameEngine.Player;
+import io.potatoBlindTest.gameEngine.TableScore;
 import io.potatoBlindTest.gameEngine.TurnResult;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -111,16 +112,14 @@ public class ControllerClient extends Application {
         ControllerClient.showScene();
     }
 
-    public static void initializeScoreView(String playerName) {
+    public static void initializeScoreView(String playerName, TableScore tableScore) {
         FXMLLoader loader = ControllerClient.changeScene("resources/scoreView.fxml");
 
         loader.<ScoreController>getController().setPlayerName(playerName);
         /**
          * TODO: Replace those values
          */
-        Player scorePlayer1 = new Player(playerName, 12, 2, null);
-        Player scorePlayer2 = new Player("MagroffPatate", 11, 1, null);
-        loader.<ScoreController>getController().setGameScores(List.of(scorePlayer2, scorePlayer1));
+        loader.<ScoreController>getController().setGameScores(tableScore.getPlayers());
 
         ControllerClient.showScene();
 

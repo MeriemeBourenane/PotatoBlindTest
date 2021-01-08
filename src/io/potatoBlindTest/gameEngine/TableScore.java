@@ -13,6 +13,10 @@ public class TableScore implements Serializable {
         this.players = players;
     }
 
+    public List<Player> getPlayers() {
+        return players;
+    }
+
     @Override
     public String toString() {
         return "TableScore{" +

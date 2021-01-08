@@ -1,5 +1,7 @@
 package io.potatoBlindTest.controller;
 
+import io.potatoBlindTest.gameEngine.Player;
+import io.potatoBlindTest.gameEngine.TableScore;
 import io.potatoBlindTest.gameEngine.TurnResult;
 import io.potatoBlindTest.network.communication.Message;
 import javafx.fxml.FXML;
@@ -11,6 +13,8 @@ import javafx.scene.input.KeyEvent;
 
 import java.io.File;
 import java.net.MalformedURLException;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class TurnController implements UIController {
 
@@ -29,7 +33,10 @@ public class TurnController implements UIController {
 
         switch (event.getCode()) {
             case ENTER:
-                ControllerClient.initializeScoreView(playerNameLabel.getText());
+                Player scorePlayer1 = new Player(playerNameLabel.getText(), 12, 2, null);
+                Player scorePlayer2 = new Player("MagroffPatate", 11, 1, null);
+                TableScore tableScore = new TableScore(new CopyOnWriteArrayList(List.of(scorePlayer2, scorePlayer1)));
+                ControllerClient.initializeScoreView(playerNameLabel.getText(), tableScore);
                 break;
             case ESCAPE:
                 ControllerClient.initializeReadyView(playerNameLabel.getText(), new TurnResult("Patate", "MagroffPatate"));
