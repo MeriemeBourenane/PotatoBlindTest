@@ -13,7 +13,7 @@ import java.util.List;
 public class ControllerClient extends Application {
 
     private static Stage primaryStage;
-    private UIController currentController;
+    private static UIController currentController;
 
     public static Stage getPrimaryStage() {
         return primaryStage;
@@ -44,6 +44,11 @@ public class ControllerClient extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        /**
+         * Change the controller
+         */
+        currentController = loader.<UIController>getController();
 
         return loader;
     }
