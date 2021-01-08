@@ -7,18 +7,26 @@ import java.net.ServerSocket;
 public class SpecificServerGame implements Serializable {
 
     private int port;
-    private InetAddress inetAdress;
+    private String ipAddress;
 
-    public SpecificServerGame(int port, InetAddress inetAddress) {
+    public SpecificServerGame(int port, String ipAddress) {
         this.port = port;
-        this.inetAdress = inetAddress;
+        this.ipAddress = ipAddress;
     }
 
     public int getPort() {
         return port;
     }
 
-    public InetAddress getInetAdress() {
-        return inetAdress;
+    public String getIpAddress() {
+        return ipAddress;
+    }
+
+    @Override
+    public String toString() {
+        return "SpecificServerGame{" +
+                "port=" + port +
+                ", inetAdress=" + ipAddress +
+                '}';
     }
 }

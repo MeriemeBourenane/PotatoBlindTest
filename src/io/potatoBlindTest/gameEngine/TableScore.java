@@ -12,4 +12,11 @@ public class TableScore implements Serializable {
     public TableScore(CopyOnWriteArrayList players) {
         this.players = players;
     }
+
+    @Override
+    public String toString() {
+        return "TableScore{" +
+                "players=" + players +
+                '}';
+    }
 }

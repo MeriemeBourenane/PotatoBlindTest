@@ -40,4 +40,14 @@ public class Turn implements Serializable {
     public void setAnswer(String answer) {
         this.answer = answer;
     }
+
+    @Override
+    public String toString() {
+        return "Turn{" +
+                "playerWinner=" + playerWinner +
+                ", fileName='" + fileName + '\'' +
+                ", file=" + file +
+                ", answer='" + answer + '\'' +
+                '}';
+    }
 }

@@ -57,4 +57,14 @@ public class Player implements Serializable {
     public Integer getRank() {
         return rank;
     }
+
+    @Override
+    public String toString() {
+        return "Player{" +
+                "name='" + name + '\'' +
+                ", score=" + score +
+                ", rank=" + rank +
+                ", socket=" + socket +
+                '}';
+    }
 }
