@@ -22,7 +22,8 @@ public enum ServerMessageType {
 
     // -------------------- About Server Games --------------------
     ALL_SERVER_GAMES(801),
-    SPECIFIC_SERVER_GAME(802);
+    SPECIFIC_SERVER_GAME(802),
+    NEW_PLAYER_IN_GAME(803);
 
     private int value;
     private ServerMessageType(int value) {

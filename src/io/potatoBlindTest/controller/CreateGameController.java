@@ -1,6 +1,8 @@
 package io.potatoBlindTest.controller;
 
 import io.potatoBlindTest.network.communication.Message;
+import io.potatoBlindTest.network.communication.MessageAttachment;
+import io.potatoBlindTest.network.handlerMessage.clientNetwork.serverTypesMessages.ServerMessageType;
 import javafx.application.Platform;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
@@ -58,5 +60,14 @@ public class CreateGameController implements UIController {
     @Override
     public void handleMessage(Message incomingMessage) {
         // TODO: Handle Player messages
+        switch (ServerMessageType.valueOfLabel(incomingMessage.getCode())) {
+            case NEW_PLAYER_IN_GAME:
+                String newPlayerName = ((MessageAttachment<String>) incomingMessage).getAttachment();
+                this.playersList.getItems().add(newPlayerName);
+                break;
+            default:
+                System.out.println("Unwanted message");
+                break;
+        }
     }
 }
