@@ -1,0 +1,75 @@
+* {
+    -fx-color-blindtest-dark-blue: #05060c;
+    -fx-color-blindtest-violet: #B42573;
+    -fx-color-blindtest-green: #C3D600;
+    -fx-color-blindtest-orange: #d69600;
+
+    -fx-application-background-color: #F7F7F7;
+    -fx-application-font-color: #FFFFFF;
+    -fx-application-border-color: #F7F7F7;
+
+    -fx-application-color: -fx-color-blindtest-dark-blue;
+}
+
+* {
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+
+/*
+* TEXT FIELD
+*/
+.text-field {
+    -fx-background-color: -fx-application-background-color;
+    -fx-border-color: -fx-application-color;
+    -fx-border-width: 1px;
+    -fx-border-radius: 0;
+    -fx-background-insets: 0;
+}
+
+.text-field .text {
+    -fx-fill: -fx-application-color;
+    -fx-font-weight: bold;
+}
+
+.wrong {
+    -fx-background-color: -fx-color-blindtest-violet;
+}
+
+/*
+* BUTTONS
+*/
+.button {
+    -fx-border-width: 1px;
+    -fx-border-radius: 0;
+    -fx-background-insets: 0;
+}
+.button .text {
+    -fx-fill: -fx-application-color;
+    -fx-font-weight: bold;
+}
+.green-button {
+    -fx-background-color: -fx-color-blindtest-green;
+}
+.orange-button {
+    -fx-background-color: -fx-color-blindtest-orange;
+}
+
+/*
+* DIVERS
+*/
+.anchor-pane {
+    -fx-background-color: -fx-application-background-color;
+}
+
+/*
+*
+*/
+.player-row {
+    -fx-background-color: -fx-color-blindtest-violet;
+}
+
+.first-row {
+    -fx-background-color: -fx-color-blindtest-green;
+}

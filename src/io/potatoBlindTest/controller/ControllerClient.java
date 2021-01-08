@@ -98,6 +98,22 @@ public class ControllerClient extends Application {
 
         ControllerClient.showScene();
     }
+
+    public static void initializeScoreView(String playerName) {
+        FXMLLoader loader = ControllerClient.changeScene("resources/scoreView.fxml");
+
+        loader.<ScoreController>getController().setPlayerName(playerName);
+        /**
+         * TODO: Replace those values
+         */
+        Player scorePlayer1 = new Player(playerName, 12, 2, null);
+        Player scorePlayer2 = new Player("MagroffPatate", 11, 1, null);
+        loader.<ScoreController>getController().setGameScores(List.of(scorePlayer2, scorePlayer1));
+
+        ControllerClient.showScene();
+
+    }
+
     /**
      * Display the welcome menu
      *
