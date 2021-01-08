@@ -62,6 +62,21 @@ public class ControllerClient extends Application {
         ControllerClient.showScene();
 
     }
+
+    public static void initializeSearchGamesView(String playerName) {
+        FXMLLoader loader = ControllerClient.changeScene("resources/joinGameView.fxml");
+
+        loader.<SearchGamesController>getController().setPlayerName(playerName);
+        /**
+         * TODO: Replace those values
+         */
+        Game game1 = new Game("Ma groffPatate", 42);
+        Game game2 = new Game("Ma groffPatate 2", 2);
+        loader.<SearchGamesController>getController().setGameValue(List.of(game1, game2));
+
+        ControllerClient.showScene();
+
+    }
     /**
      * Display the welcome menu
      *
