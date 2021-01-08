@@ -70,7 +70,19 @@
                         <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <Button fx:id="joinButton" mnemonicParsing="false" onMouseClicked="#handleJoin" styleClass="orange-button" text="Rejoindre" GridPane.halignment="CENTER" />
+                        <GridPane>
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <Button fx:id="joinButton" disable="true" mnemonicParsing="false" onMouseClicked="#handleJoin" styleClass="orange-button" text="Rejoindre" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+                              <Button mnemonicParsing="false" onMouseClicked="#handleRefresh" styleClass="blue-button" text="Rafraichir" GridPane.halignment="CENTER" />
+                           </children>
+                        </GridPane>
                      </children>
                   </GridPane>
                </children>

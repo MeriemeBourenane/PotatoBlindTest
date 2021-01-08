@@ -2,6 +2,7 @@ package io.potatoBlindTest.controller;
 
 import io.potatoBlindTest.gameEngine.Game;
 import io.potatoBlindTest.network.communication.Message;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -33,7 +34,17 @@ public class SearchGamesController implements UIController {
 
     @FXML
     void handleJoin() {
+        Game selectedGame = this.gameTable.getSelectionModel().getSelectedItem();
+        System.out.println("Selected game: " + selectedGame.getCreator());
+        // TODO: Send the message
+
         ControllerClient.initializeReadyView(playerNameLabel.getText(), null);
+    }
+
+    @FXML
+    void handleRefresh() {
+        // TODO: Handle the refresh
+
     }
 
     public void setGameValue(List<Game> gameList) {
@@ -47,6 +58,7 @@ public class SearchGamesController implements UIController {
 
         gameCreatorColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCreator()));
         gameNbPlayersColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getNbPlayers()).asObject());
+        joinButton.disableProperty().bind(Bindings.isEmpty(gameTable.getSelectionModel().getSelectedItems()));
 
     }
 
