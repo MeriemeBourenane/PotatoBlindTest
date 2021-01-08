@@ -77,6 +77,20 @@ public class ControllerClient extends Application {
         ControllerClient.showScene();
 
     }
+
+    public static void initializeReadyView(String playerName, String turnWinner) {
+
+        FXMLLoader loader = ControllerClient.changeScene("resources/readyView.fxml");
+
+        loader.<ReadyController>getController().setPlayerName(playerName);
+        if (turnWinner != null) {
+            loader.<ReadyController>getController().setTurnWinner(turnWinner);
+        }
+
+        ControllerClient.showScene();
+
+    }
+
     /**
      * Display the welcome menu
      *
