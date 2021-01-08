@@ -20,7 +20,7 @@ public class ClientHandler implements Callable, OberverClientHandler {
     private ObjectInputStream ois;
     private ObjectOutputStream oos;
 
-    public ClientHandler(Socket socketClient,
+    public ClientHandler(Socket socket,
                          CopyOnWriteArrayList<ClientHandler> clientHandlers,
                          CopyOnWriteArrayList<ServerGame> serverGames) throws IOException {
 
