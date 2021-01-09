@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ServerGame extends ServerNetwork {
 
@@ -20,12 +21,14 @@ public class ServerGame extends ServerNetwork {
     private Player creator;
     private Turn currentTurn;
     private StatesGame statesGame;
+    private AtomicInteger nbReadyPlayer;
 
     public ServerGame(ServerSocket serverSocket, CopyOnWriteArrayList<ServerGame> serverGames) throws IOException {
         super(serverSocket);
         this.mapPlayerClientHandler = new ConcurrentHashMap<>();
         this.creator = null;
         this.currentTurn = null;
+        this.nbReadyPlayer = new AtomicInteger(0);
     }
 
     public ConcurrentHashMap<Player, ClientHandler> getMapPlayerClientHandler() {
@@ -59,6 +62,14 @@ public class ServerGame extends ServerNetwork {
 
     public void setStatesGame(StatesGame statesGame) {
         this.statesGame = statesGame;
+    }
+
+    public void setNbReadyPlayer(AtomicInteger nbReadyPlayer) {
+        this.nbReadyPlayer = nbReadyPlayer;
+    }
+
+    public AtomicInteger getNbReadyPlayer() {
+        return nbReadyPlayer;
     }
 
     @Override
