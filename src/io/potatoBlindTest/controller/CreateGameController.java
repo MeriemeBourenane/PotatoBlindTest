@@ -29,7 +29,23 @@ public class CreateGameController implements UIController {
 
     @FXML
     private void handleStartGame() {
-        ControllerClient.initializeReadyView(playerNameLabel.getText(), null);
+        switch (ControllerClient.getTransport().sendStartGameMessage()) {
+            case OK:
+                ControllerClient.initializeReadyView(playerNameLabel.getText(), null);
+                break;
+            case ERROR_SERVER:
+                ControllerClient.initializeMainMenuView("Erreur interne du serveur", playerNameLabel.getText());
+                break;
+            case FORBIDDEN:
+                ControllerClient.initializeMainMenuView("Opération non autorisée par le serveur", playerNameLabel.getText());
+                break;
+            case NOT_FOUND:
+                ControllerClient.initializeMainMenuView("Opération non traitée par le serveur", playerNameLabel.getText());
+                break;
+            default:
+                ControllerClient.initializeMainMenuView("Erreur interne", playerNameLabel.getText());
+                break;
+        }
     }
 
 

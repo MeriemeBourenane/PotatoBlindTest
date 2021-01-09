@@ -244,4 +244,16 @@ public class ClientNetwork {
 
         return answer.getAttachment();
     }
+
+    public ServerMessageType sendStartGameMessage() {
+        Message message = new Message(ClientMessageType.START_THE_GAME.getValue());
+        Message receivedMessage = this.sendMessage(message);
+
+        if (receivedMessage == null) {
+            return null;
+        }
+
+        return ServerMessageType.valueOfLabel(receivedMessage.getCode());
+
+    }
 }
