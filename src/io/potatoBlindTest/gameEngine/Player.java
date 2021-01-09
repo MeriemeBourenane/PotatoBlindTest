@@ -2,6 +2,7 @@ package io.potatoBlindTest.gameEngine;
 
 import java.io.Serializable;
 import java.net.Socket;
+import java.util.Objects;
 
 public class Player implements Serializable {
 
@@ -9,6 +10,13 @@ public class Player implements Serializable {
     Integer score;
     Integer rank;
     Boolean isCreator;
+
+    public Player(String name) {
+        this.name = name;
+        this.score = 0;
+        this.rank = 0;
+        this.isCreator = false;
+    }
 
     public Player(String name, boolean isCreator) {
         this.name = name;
@@ -57,5 +65,18 @@ public class Player implements Serializable {
                 ", score=" + score +
                 ", rank=" + rank +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Player player = (Player) o;
+        return name.equals(player.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 }
