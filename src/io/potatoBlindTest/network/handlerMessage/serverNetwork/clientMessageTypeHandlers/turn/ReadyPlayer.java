@@ -23,16 +23,16 @@ public class ReadyPlayer extends SubjectClientHandler implements ClientMessageHa
         //  - increment the counter of ready players
         //  - when the counter is equal to the number of players -> notify all the players with TURN_FILE code
         Message messageToSend;
-
+        int NbReadyPlayer = -1;
         if (clientHandlers.getServerNetwork().isServerGame() && ((ServerGame)clientHandlers.getServerNetwork()).getStatesGame() == StatesGame.STARTED) {
-            ((ServerGame)clientHandlers.getServerNetwork()).getNbReadyPlayer().incrementAndGet();
+            NbReadyPlayer = ((ServerGame)clientHandlers.getServerNetwork()).getNbReadyPlayer().incrementAndGet();
             messageToSend = new Message(ServerMessageType.OK.getValue());
         } else {
             messageToSend = new Message(ServerMessageType.FORBIDDEN.getValue());
         }
-
-        if (((ServerGame)clientHandlers.getServerNetwork()).getNbReadyPlayer() == new AtomicInteger(((ServerGame)clientHandlers.getServerNetwork()).getMapPlayerClientHandler().size())) {
+        if (NbReadyPlayer == ((ServerGame)clientHandlers.getServerNetwork()).getMapPlayerClientHandler().size()) {
             ((ServerGame)clientHandlers.getServerNetwork()).getNbReadyPlayer().set(0);
+
             Thread threadNotify = new Thread(() -> {
                 // Call game engine to choose a file
                 TurnFile turnFile = new TurnFile();
