@@ -9,7 +9,13 @@ public class SubjectClientHandler {
 
     public void notifyAll(CopyOnWriteArrayList<ClientHandler> clientsToNotify, Message messageNotify) {
         for (ClientHandler clientHandler : clientsToNotify) {
+            System.out.println("Notifying ...");
             clientHandler.notify(messageNotify);
         }
+    }
+
+    public void notifyOne(ClientHandler clientToNotify, Message messageNotify) {
+        System.out.println("Notifying ...");
+        clientToNotify.notify(messageNotify);
     }
 }
