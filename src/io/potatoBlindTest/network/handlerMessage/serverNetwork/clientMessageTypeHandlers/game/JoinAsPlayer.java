@@ -36,7 +36,8 @@ public class JoinAsPlayer extends SubjectClientHandler implements ClientMessageH
 
             ((ServerGame)clientHandlers.getServerNetwork()).getMapPlayerClientHandler().put(player, clientHandlers);
 
-            messageToSend = new Message(ServerMessageType.OK.getValue());
+            NamePlayer namePLayer = new NamePlayer(player.getName());
+            messageToSend = new MessageAttachment<NamePlayer>(ServerMessageType.OK.getValue(), namePLayer);
             System.out.println("[JOinAsPlayer] code : " + messageToSend.getCode());
 
         } else {
