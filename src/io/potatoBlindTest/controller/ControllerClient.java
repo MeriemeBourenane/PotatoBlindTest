@@ -191,6 +191,15 @@ public class ControllerClient extends Application {
 
     }
 
+    public static void initializeWaitingTurnView(String playerName) {
+        FXMLLoader loader = ControllerClient.changeScene("resources/waitingTurnView.fxml");
+
+        loader.<WaitingTurnView>getController().setPlayerName(playerName);
+
+        ControllerClient.showScene();
+
+    }
+
     /**
      * Display the welcome menu
      *
