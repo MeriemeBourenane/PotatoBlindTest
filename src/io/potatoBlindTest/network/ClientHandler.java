@@ -1,5 +1,6 @@
 package io.potatoBlindTest.network;
 
+import io.potatoBlindTest.gameEngine.Player;
 import io.potatoBlindTest.network.communication.Message;
 import io.potatoBlindTest.network.communication.MessageAttachment;
 import io.potatoBlindTest.network.handlerMessage.serverNetwork.ClientTypesMessages.ClientMesssageMapping;
@@ -15,18 +16,19 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class ClientHandler implements Callable, OberverClientHandler {
 
     private Socket socket;
-    private CopyOnWriteArrayList<ClientHandler> clientHandlers;
-    private CopyOnWriteArrayList<ServerGame> serverGames;
+    //private CopyOnWriteArrayList<ClientHandler> clientHandlers;
+    //private CopyOnWriteArrayList<ServerGame> serverGames;
     private ObjectInputStream ois;
     private ObjectOutputStream oos;
+    private ServerNetwork serverNetwork;
 
     public ClientHandler(Socket socket,
-                         CopyOnWriteArrayList<ClientHandler> clientHandlers,
-                         CopyOnWriteArrayList<ServerGame> serverGames) throws IOException {
+                         ServerNetwork serverNetwork) throws IOException {
 
         this.socket = socket;
-        this.clientHandlers = clientHandlers;
-        this.serverGames = serverGames;
+        //this.clientHandlers = serverNetwork.clientHandlers;
+        //this.serverGames = serverNetwork.serverGames;
+        this.serverNetwork = serverNetwork;
         this.oos = new ObjectOutputStream(socket.getOutputStream());
         this.ois = new ObjectInputStream(socket.getInputStream());
     }
@@ -69,12 +71,7 @@ public class ClientHandler implements Callable, OberverClientHandler {
         return socket;
     }
 
-    public CopyOnWriteArrayList<ServerGame> getServerGames() {
-        return serverGames;
+    public ServerNetwork getServerNetwork() {
+        return serverNetwork;
     }
-
-    public CopyOnWriteArrayList<ClientHandler> getClientHandlers() {
-        return clientHandlers;
-    }
-
 }
