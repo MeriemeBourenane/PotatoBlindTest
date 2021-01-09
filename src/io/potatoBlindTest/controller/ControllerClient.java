@@ -106,10 +106,10 @@ public class ControllerClient extends Application {
                 initializeMainMenuView("Erreur interne du serveur", playerName);
                 break;
             case FORBIDDEN:
-                initializeMainMenuView("Opération non authorisé par le serveur", playerName);
+                initializeMainMenuView("Opération non autorisée par le serveur", playerName);
                 break;
             case NOT_FOUND:
-                initializeMainMenuView("Opération non traité par le serveur", playerName);
+                initializeMainMenuView("Opération non traitée par le serveur", playerName);
                 break;
             default:
                 initializeMainMenuView("Erreur interne", playerName);
