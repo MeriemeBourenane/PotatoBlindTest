@@ -1,5 +1,7 @@
 package io.potatoBlindTest.controller;
 
+import io.potatoBlindTest.gameEngine.NameCreator;
+import io.potatoBlindTest.gameEngine.NamePlayer;
 import io.potatoBlindTest.network.communication.Message;
 import io.potatoBlindTest.network.communication.MessageAttachment;
 import io.potatoBlindTest.network.handlerMessage.clientNetwork.serverTypesMessages.ServerMessageType;
@@ -36,21 +38,6 @@ public class CreateGameController implements UIController {
         ListProperty listProperty = new SimpleListProperty(this.playersList.getItems());
         this.nbPlayersLabel.textProperty().bind(listProperty.sizeProperty().asString());
 
-        Thread thread = new Thread(() -> {
-
-            for (int i = 0; i < 10; i++) {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                Platform.runLater(() -> {
-                    this.playersList.getItems().add("Patate");
-                });
-            }
-        });
-        thread.start();
-
     }
 
     public void setPlayerName(String playerName) {
@@ -62,8 +49,10 @@ public class CreateGameController implements UIController {
         // TODO: Handle Player messages
         switch (ServerMessageType.valueOfLabel(incomingMessage.getCode())) {
             case NEW_PLAYER_IN_GAME:
-                String newPlayerName = ((MessageAttachment<String>) incomingMessage).getAttachment();
-                this.playersList.getItems().add(newPlayerName);
+                NamePlayer newPlayerName = ((MessageAttachment<NamePlayer>) incomingMessage).getAttachment();
+                Platform.runLater(() -> {
+                    this.playersList.getItems().add(newPlayerName.getName());
+                });
                 break;
             default:
                 System.out.println("Unwanted message");
