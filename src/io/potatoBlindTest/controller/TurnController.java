@@ -56,19 +56,6 @@ public class TurnController implements UIController {
 
     @FXML
     private void initialize() {
-        File file = new File(this.getClass().getResource("resources/potato.png").getPath());
-
-        String localUrl = null;
-        try {
-            localUrl = file.toURI().toURL().toString();
-            Image image = new Image(localUrl);
-
-            imageView.setImage(image);
-        } catch (MalformedURLException e) {
-            System.err.println("Erreur");
-        }
-
-
     }
 
     public void setPlayerName(String playerName) {
@@ -76,23 +63,27 @@ public class TurnController implements UIController {
     }
 
 
+    public void setImage(File file) {
+        String localUrl = null;
+        localUrl = file.toURI().toString();
+        Image image = new Image(localUrl);
+
+        imageView.setImage(image);
+    }
+
     @Override
     public void handleMessage(Message incomingMessage) {
         // TODO: Handle EndTurn and EndGame messages
 
         switch (ServerMessageType.valueOfLabel(incomingMessage.getCode())) {
-            case TURN_FILE:
-                System.out.println("[DEBUG] Received turn file");
-                System.out.println("[DEBUG] Not Implemented");
-                break;
             case TURN_RESULT:
                 System.out.println("[DEBUG] Received end of turn");
-                TurnResult turnResult = ((MessageAttachment<TurnResult>)incomingMessage).getAttachment();
+                TurnResult turnResult = ((MessageAttachment<TurnResult>) incomingMessage).getAttachment();
                 ControllerClient.initializeReadyView(playerNameLabel.getText(), turnResult);
                 break;
             case END_GAME_RESULTS:
                 System.out.println("[DEBUG] Received end of game");
-                TableScore tableScore = ((MessageAttachment<TableScore>)incomingMessage).getAttachment();
+                TableScore tableScore = ((MessageAttachment<TableScore>) incomingMessage).getAttachment();
                 ControllerClient.initializeScoreView(playerNameLabel.getText(), tableScore);
                 break;
             default:
