@@ -38,7 +38,7 @@ public class WaitingTurnView implements UIController {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    ControllerClient.initializeTurnView(playerNameLabel.getText(), turnMessageAttachment);
+                    ControllerClient.initializeTurnView(playerNameLabel.getText());
                 });
                 break;
             default:
