@@ -46,6 +46,7 @@ public class ControllerClient extends Application {
                 scene = new Scene(loader.load());
                 ControllerClient.getPrimaryStage().setScene(scene);
                 ControllerClient.getPrimaryStage().setOnCloseRequest(e -> shutdown());
+                getPrimaryStage().setTitle("Potato's Blind Test");
             }
 
         } catch (IOException e) {
