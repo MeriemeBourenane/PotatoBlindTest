@@ -46,7 +46,7 @@ public class SearchGamesController implements UIController {
             return;
         }
 
-        ControllerClient.initializeReadyView(playerNameLabel.getText(), null);
+        ControllerClient.initializeWaitingStartView(namePlayer.getName());
     }
 
     @FXML

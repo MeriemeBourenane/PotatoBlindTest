@@ -181,6 +181,15 @@ public class ControllerClient extends Application {
 
     }
 
+    public static void initializeWaitingStartView(String playerName) {
+        FXMLLoader loader = ControllerClient.changeScene("resources/waitingStartView.fxml");
+
+        loader.<WaitingStartController>getController().setPlayerName(playerName);
+
+        ControllerClient.showScene();
+
+    }
+
     /**
      * Display the welcome menu
      *
