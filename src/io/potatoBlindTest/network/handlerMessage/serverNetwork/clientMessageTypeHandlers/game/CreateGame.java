@@ -26,13 +26,13 @@ public class CreateGame implements ClientMessageHandler<Player> {
         // - add it to the CopyOnWriteArrayList<ServerGame>
         // - send the new ServerSocket 's ServerGame to the client
         Message messageToSend;
-        ServerGame newServerGame = Network.createServerGame();
+        ServerGame newServerGame = Network.createServerGame(clientHandler.getServerNetwork().serverGames);
         newServerGame.setStatesGame(StatesGame.CREATED);
 
         if (newServerGame == null) {
             messageToSend = new Message(ServerMessageType.FORBIDDEN.getValue());
         } else {
-            ServerNetwork.addServerGameToList(newServerGame);
+            clientHandler.getServerNetwork().addServerGameToList(newServerGame);
 
             try{
                 SpecificServerGame specificServerGame = new SpecificServerGame(newServerGame.getServerSocket().getLocalPort(),

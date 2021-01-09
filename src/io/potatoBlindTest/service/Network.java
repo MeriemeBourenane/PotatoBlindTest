@@ -5,6 +5,7 @@ import io.potatoBlindTest.utils.NetworkUtils;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Network {
 
@@ -14,10 +15,10 @@ public class Network {
      * returns null if an error occured                     -> no ServerGame created
      * returns the new ServerSocket of the new ServerGame   -> new ServerGame created
      */
-    public static ServerGame createServerGame() {
+    public static ServerGame createServerGame(CopyOnWriteArrayList<ServerGame> serverGames) {
         try {
             ServerSocket serverSocketForGame = NetworkUtils.create();
-            ServerGame newServerGame = new ServerGame(serverSocketForGame);
+            ServerGame newServerGame = new ServerGame(serverSocketForGame, serverGames);
             return newServerGame;
 
         } catch (IOException e) {

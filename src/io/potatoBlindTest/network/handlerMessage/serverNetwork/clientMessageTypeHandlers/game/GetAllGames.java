@@ -30,7 +30,7 @@ public class GetAllGames implements ClientMessageHandler<Player> {
         Message messageToSend;
         ListGames listGames = new ListGames();
 
-        for(ServerGame serverGame : ServerNetwork.getServerGames()) {
+        for(ServerGame serverGame : clientHandler.getServerNetwork().getServerGames()) {
             if (serverGame.getCreator() != null) {
                 try {
                     Game game = new Game(serverGame.getCreator().getName(),

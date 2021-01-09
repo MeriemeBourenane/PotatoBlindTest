@@ -1,5 +1,6 @@
 package io.potatoBlindTest.network;
 
+import io.potatoBlindTest.gameEngine.Game;
 import io.potatoBlindTest.gameEngine.Player;
 import io.potatoBlindTest.gameEngine.Turn;
 import io.potatoBlindTest.gameEngine.statsGame.StatesGame;
@@ -20,7 +21,7 @@ public class ServerGame extends ServerNetwork {
     private Turn currentTurn;
     private StatesGame statesGame;
 
-    public ServerGame(ServerSocket serverSocket) throws IOException {
+    public ServerGame(ServerSocket serverSocket, CopyOnWriteArrayList<ServerGame> serverGames) throws IOException {
         super(serverSocket);
         this.mapPlayerClientHandler = new ConcurrentHashMap<>();
         this.creator = null;

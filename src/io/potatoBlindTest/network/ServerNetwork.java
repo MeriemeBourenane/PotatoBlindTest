@@ -11,7 +11,7 @@ import java.util.concurrent.*;
 public class ServerNetwork {
 
     // Server Games
-    static CopyOnWriteArrayList<ServerGame> serverGames;
+    public CopyOnWriteArrayList<ServerGame> serverGames;
 
     private ExecutorService exectutorService;
     private CompletionService<Integer> completionService;
@@ -72,8 +72,7 @@ public class ServerNetwork {
         }
     }
 
-    public static void addServerGameToList(ServerGame serverGame) {
-
+    public void addServerGameToList(ServerGame serverGame) {
         serverGames.add(serverGame);
     }
 
@@ -87,7 +86,7 @@ public class ServerNetwork {
         return serverSocket;
     }
 
-    public static CopyOnWriteArrayList<ServerGame> getServerGames() {
+    public CopyOnWriteArrayList<ServerGame> getServerGames() {
         return serverGames;
     }
 
