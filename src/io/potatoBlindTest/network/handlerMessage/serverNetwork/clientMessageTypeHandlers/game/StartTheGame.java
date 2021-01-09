@@ -27,8 +27,8 @@ public class StartTheGame extends SubjectClientHandler implements ClientMessageH
         Message messageToSend;
 
         if (clientHandlers.getServerNetwork().isServerGame() &&
-                clientHandlers == ((ServerGame)clientHandlers.getServerNetwork()).getMapPlayerClientHandler()
-                        .get(((ServerGame)clientHandlers.getServerNetwork()).getCreator()) &&
+                clientHandlers.equals(((ServerGame)clientHandlers.getServerNetwork()).getMapPlayerClientHandler()
+                        .get(((ServerGame)clientHandlers.getServerNetwork()).getCreator())) &&
                 ((ServerGame)clientHandlers.getServerNetwork()).getStatesGame() == StatesGame.INIT) {
 
             ((ServerGame)clientHandlers.getServerNetwork()).setStatesGame(StatesGame.STARTED);
