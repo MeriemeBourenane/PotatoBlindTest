@@ -4,6 +4,7 @@ import io.potatoBlindTest.gameEngine.Game;
 import io.potatoBlindTest.gameEngine.Player;
 import io.potatoBlindTest.gameEngine.TableScore;
 import io.potatoBlindTest.gameEngine.TurnResult;
+import io.potatoBlindTest.network.ClientNetwork;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -16,6 +17,11 @@ public class ControllerClient extends Application {
 
     private static Stage primaryStage;
     private static UIController currentController;
+    private static ClientNetwork transport;
+
+    public static ClientNetwork getTransport() {
+        return transport;
+    }
 
     public static Stage getPrimaryStage() {
         return primaryStage;
