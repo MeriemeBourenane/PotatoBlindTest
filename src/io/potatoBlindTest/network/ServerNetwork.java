@@ -10,9 +10,6 @@ import java.util.concurrent.*;
 
 public class ServerNetwork {
 
-    // Client Tcp Connected
-    static CopyOnWriteArrayList<ClientHandler> clientHandlers;
-
     // Server Games
     static CopyOnWriteArrayList<ServerGame> serverGames;
 
@@ -21,7 +18,6 @@ public class ServerNetwork {
     protected ServerSocket serverSocket;
 
     public ServerNetwork() throws IOException {
-        clientHandlers = new CopyOnWriteArrayList<>();
         serverGames = new CopyOnWriteArrayList<>();
 
         this.exectutorService = Executors.newFixedThreadPool(7);
@@ -40,7 +36,6 @@ public class ServerNetwork {
      * @throws IOException
      */
     protected ServerNetwork(ServerSocket serversocket) throws IOException {
-        clientHandlers = new CopyOnWriteArrayList<>();
         serverGames = new CopyOnWriteArrayList<>();
 
         this.exectutorService = Executors.newFixedThreadPool(8);
@@ -68,7 +63,6 @@ public class ServerNetwork {
 
                 // Lance un thread par Socket client
                 ClientHandler clientHandler = new ClientHandler(socketClient, this);
-                clientHandlers.add(clientHandler);
                 this.completionService.submit(clientHandler);
 
             } catch (IOException e) {
@@ -91,10 +85,6 @@ public class ServerNetwork {
     public ServerSocket getServerSocket() {
 
         return serverSocket;
-    }
-
-    public static CopyOnWriteArrayList<ClientHandler> getClientHandlers() {
-        return clientHandlers;
     }
 
     public static CopyOnWriteArrayList<ServerGame> getServerGames() {
