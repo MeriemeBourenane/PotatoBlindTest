@@ -13,6 +13,8 @@ import io.potatoBlindTest.network.handlerMessage.serverNetwork.ClientTypesMessag
 import io.potatoBlindTest.network.handlerMessage.serverNetwork.ClientTypesMessages.ClientMessageType;
 
 import java.io.Serializable;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class GetAllGames implements ClientMessageHandler<Player> {
@@ -30,12 +32,17 @@ public class GetAllGames implements ClientMessageHandler<Player> {
 
         for(ServerGame serverGame : ServerNetwork.getServerGames()) {
             if (serverGame.getCreator() != null) {
-                Game game = new Game(serverGame.getCreator().getName(),
-                        serverGame.getMapPlayerSocket().size(),
-                        serverGame.getMapPlayerSocket().get(serverGame.getCreator()).getLocalAddress().getHostAddress(),
-                        serverGame.getMapPlayerSocket().get(serverGame.getCreator()).getLocalPort());
-                listGames.addGameToList(game);
-                System.out.println("A game : " + game);
+                try {
+                    Game game = new Game(serverGame.getCreator().getName(),
+                            serverGame.getMapPlayerClientHandler().size(),
+                            InetAddress.getLocalHost().getHostAddress(),
+                            serverGame.getServerSocket().getLocalPort());
+                    listGames.addGameToList(game);
+                    System.out.println("A game : " + game);
+                } catch (UnknownHostException e) {
+                    System.out.println("[GetAllGames] uncknown host ...");
+                    e.printStackTrace();
+                }
             }
         }
         messageToSend = new MessageAttachment<ListGames>(ServerMessageType.OK.getValue(), listGames);
