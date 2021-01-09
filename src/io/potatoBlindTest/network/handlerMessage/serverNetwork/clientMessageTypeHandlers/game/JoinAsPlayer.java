@@ -24,21 +24,21 @@ public class JoinAsPlayer extends SubjectClientHandler implements ClientMessageH
         // - answer to the client with name unchanged or changed
         // - notify the creator with the NamePlayer
         Message messageToSend;
-
+        Player player = new Player(dataMessage.getName());
         if (clientHandlers.getServerNetwork().isServerGame() && ((ServerGame)clientHandlers.getServerNetwork()).getStatesGame() == StatesGame.INIT) {
 
             // while the name of the player is already given
-            Player player = new Player(dataMessage.getName());
             while (((ServerGame)clientHandlers.getServerNetwork()).getMapPlayerClientHandler().containsKey(player)) {
                 Random rand= new Random();
                 player.setName(dataMessage.getName() + "-"+ rand.nextInt(10_000));
+
             }
 
             ((ServerGame)clientHandlers.getServerNetwork()).getMapPlayerClientHandler().put(player, clientHandlers);
 
             NamePlayer namePLayer = new NamePlayer(player.getName());
             messageToSend = new MessageAttachment<NamePlayer>(ServerMessageType.OK.getValue(), namePLayer);
-            System.out.println("[JOinAsPlayer] code : " + messageToSend.getCode());
+            System.out.println("[JOinAsPlayer] code : " + messageToSend.getCode() + " nameplayer " + namePLayer.getName());
 
         } else {
             messageToSend = new Message(ServerMessageType.FORBIDDEN.getValue());
@@ -47,7 +47,7 @@ public class JoinAsPlayer extends SubjectClientHandler implements ClientMessageH
         if (messageToSend.getCode() == ServerMessageType.OK.getValue()) {
             Thread threadNotify = new Thread(() -> {
 
-                NamePlayer namePlayer = new NamePlayer(dataMessage.getName());
+                NamePlayer namePlayer = new NamePlayer(player.getName());
                 Message notifiation = new MessageAttachment<NamePlayer>(ServerMessageType.NEW_PLAYER_IN_GAME.getValue(), namePlayer);
                 try {
                     this.notifyOne(((ServerGame)clientHandlers.getServerNetwork()).getMapPlayerClientHandler()
