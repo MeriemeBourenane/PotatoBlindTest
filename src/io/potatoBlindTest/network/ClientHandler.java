@@ -26,8 +26,6 @@ public class ClientHandler implements Callable, OberverClientHandler {
                          ServerNetwork serverNetwork) throws IOException {
 
         this.socket = socket;
-        //this.clientHandlers = serverNetwork.clientHandlers;
-        //this.serverGames = serverNetwork.serverGames;
         this.serverNetwork = serverNetwork;
         this.oos = new ObjectOutputStream(socket.getOutputStream());
         this.ois = new ObjectInputStream(socket.getInputStream());
@@ -74,4 +72,5 @@ public class ClientHandler implements Callable, OberverClientHandler {
     public ServerNetwork getServerNetwork() {
         return serverNetwork;
     }
+
 }
