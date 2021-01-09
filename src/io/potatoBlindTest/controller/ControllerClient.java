@@ -52,6 +52,7 @@ public class ControllerClient extends Application {
                 ControllerClient.getPrimaryStage().setScene(scene);
                 ControllerClient.getPrimaryStage().setOnCloseRequest(e -> shutdown());
                 getPrimaryStage().setTitle("Potato's Blind Test");
+                getPrimaryStage().setResizable(false);
             }
 
         } catch (IOException e) {
