@@ -166,6 +166,18 @@ public class ClientNetwork {
         return socket;
     }
 
+    public void closeNetwork() {
+        try {
+            this.threadReadMessage.interrupt();
+            this.ois.close();
+            this.oos.close();
+            this.socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
     public ServerMessageType sendCreateGameMessage(String creatorName) {
         Message message = new Message(ClientMessageType.CREATE_GAME.getValue());
