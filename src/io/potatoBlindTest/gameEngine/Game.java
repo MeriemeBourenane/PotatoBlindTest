@@ -1,6 +1,8 @@
 package io.potatoBlindTest.gameEngine;
 
-public class Game {
+import java.io.Serializable;
+
+public class Game implements Serializable {
 
     private String creator;
     private Integer nbPlayers;
@@ -28,5 +30,15 @@ public class Game {
 
     public String getIpAddress() {
         return ipAddress;
+    }
+
+    @Override
+    public String toString() {
+        return "Game{" +
+                "creator='" + creator + '\'' +
+                ", nbPlayers=" + nbPlayers +
+                ", ipAddress='" + ipAddress + '\'' +
+                ", port=" + port +
+                '}';
     }
 }

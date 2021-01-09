@@ -8,26 +8,26 @@ public class Player implements Serializable {
     String name;
     Integer score;
     Integer rank;
-    Socket socket;
+    Boolean isCreator;
 
-    public Player(String name, Socket socket) {
+    public Player(String name, boolean isCreator) {
         this.name = name;
-        this.socket = socket;
         this.score = 0;
+        this.rank = 0;
+        this.isCreator = isCreator;
+    }
+
+    public Player(String name, Integer score) {
+        this.name = name;
+        this.score = score;
         this.rank = 0;
     }
 
-    public Player(String name, Integer score, Socket socket) {
-        this.name = name;
-        this.score = score;
-        this.socket = socket;
-    }
-
-    public Player(String name, Integer score, Integer rank, Socket socket) {
+    public Player(String name, Integer score, Integer rank) {
         this.name = name;
         this.score = score;
         this.rank = rank;
-        this.socket = socket;
+        this.isCreator = false;
     }
 
     public String getName() {
@@ -46,14 +46,6 @@ public class Player implements Serializable {
         this.score = score;
     }
 
-    public Socket getSocket() {
-        return socket;
-    }
-
-    public void setSocket(Socket socket) {
-        this.socket = socket;
-    }
-
     public Integer getRank() {
         return rank;
     }
@@ -64,7 +56,6 @@ public class Player implements Serializable {
                 "name='" + name + '\'' +
                 ", score=" + score +
                 ", rank=" + rank +
-                ", socket=" + socket +
                 '}';
     }
 }
