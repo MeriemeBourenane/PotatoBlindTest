@@ -35,8 +35,8 @@ public class TurnController implements UIController {
 
         switch (event.getCode()) {
             case ENTER:
-                Player scorePlayer1 = new Player(playerNameLabel.getText(), 12, 2, null);
-                Player scorePlayer2 = new Player("MagroffPatate", 11, 1, null);
+                Player scorePlayer1 = new Player(playerNameLabel.getText(), 12, 2);
+                Player scorePlayer2 = new Player("MagroffPatate", 11, 1);
                 TableScore tableScore = new TableScore(new CopyOnWriteArrayList(List.of(scorePlayer2, scorePlayer1)));
                 ControllerClient.initializeScoreView(playerNameLabel.getText(), tableScore);
                 break;
