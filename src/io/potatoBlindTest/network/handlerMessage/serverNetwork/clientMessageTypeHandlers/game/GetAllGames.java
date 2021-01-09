@@ -3,6 +3,7 @@ package io.potatoBlindTest.network.handlerMessage.serverNetwork.clientMessageTyp
 import io.potatoBlindTest.gameEngine.Game;
 import io.potatoBlindTest.gameEngine.ListGames;
 import io.potatoBlindTest.gameEngine.Player;
+import io.potatoBlindTest.gameEngine.statsGame.StatesGame;
 import io.potatoBlindTest.network.ClientHandler;
 import io.potatoBlindTest.network.ServerGame;
 import io.potatoBlindTest.network.ServerNetwork;
@@ -31,7 +32,7 @@ public class GetAllGames implements ClientMessageHandler<Player> {
         ListGames listGames = new ListGames();
 
         for(ServerGame serverGame : clientHandler.getServerNetwork().getServerGames()) {
-            if (serverGame.getCreator() != null) {
+            if (serverGame.getCreator() != null && serverGame.getStatesGame() == StatesGame.INIT) {
                 try {
                     Game game = new Game(serverGame.getCreator().getName(),
                             serverGame.getMapPlayerClientHandler().size(),
