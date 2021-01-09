@@ -67,7 +67,7 @@ public class ServerNetwork {
                 System.out.println("Server as accepted a new client ... ");
 
                 // Lance un thread par Socket client
-                ClientHandler clientHandler = new ClientHandler(socketClient, clientHandlers, serverGames);
+                ClientHandler clientHandler = new ClientHandler(socketClient, this);
                 clientHandlers.add(clientHandler);
                 this.completionService.submit(clientHandler);
 
@@ -79,14 +79,33 @@ public class ServerNetwork {
     }
 
     public static void addServerGameToList(ServerGame serverGame) {
+
         serverGames.add(serverGame);
     }
 
     public void shutdown() {
+
         this.exectutorService.shutdown();
     }
 
     public ServerSocket getServerSocket() {
+
         return serverSocket;
+    }
+
+    public static CopyOnWriteArrayList<ClientHandler> getClientHandlers() {
+        return clientHandlers;
+    }
+
+    public static CopyOnWriteArrayList<ServerGame> getServerGames() {
+        return serverGames;
+    }
+
+    public CompletionService<Integer> getCompletionService() {
+        return completionService;
+    }
+
+    public boolean isServerGame() {
+        return false;
     }
 }
