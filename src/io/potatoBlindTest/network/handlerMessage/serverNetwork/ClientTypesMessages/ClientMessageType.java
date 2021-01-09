@@ -6,8 +6,9 @@ public enum ClientMessageType {
     CREATE_GAME(600),
     GET_ALL_GAMES(601),
     JOIN_AS_PLAYER(602),
-    START_THE_GAME(603),
-    QUIT_THE_GAME(604),
+    JOIN_AS_CREATOR(603),
+    START_THE_GAME(604),
+    QUIT_THE_GAME(605),
 
     // -------------------- After joining a game --------------------
     TURN_RESULT(700),
@@ -15,6 +16,7 @@ public enum ClientMessageType {
     TURN_FILE(702),
     SUBMIT_ANSWER(703),
     END_GAME_RESULTS(704),
+    CANCEL_GAME(705),
 
     // -------------------- About Server Games --------------------
     ALL_SERVER_GAMES(801),
