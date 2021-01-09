@@ -2,6 +2,7 @@ package io.potatoBlindTest.controller;
 
 import io.potatoBlindTest.gameEngine.Game;
 import io.potatoBlindTest.gameEngine.ListGames;
+import io.potatoBlindTest.gameEngine.NamePlayer;
 import io.potatoBlindTest.network.communication.Message;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -36,8 +37,14 @@ public class SearchGamesController implements UIController {
     @FXML
     void handleJoin() {
         Game selectedGame = this.gameTable.getSelectionModel().getSelectedItem();
-        System.out.println("Selected game: " + selectedGame.getCreator());
-        // TODO: Send the message
+        NamePlayer namePlayer = ControllerClient.getTransport().sendJoinAsPlayerMessage(playerNameLabel.getText(),
+                                                                selectedGame.getIpAddress(),
+                                                                selectedGame.getPort());
+        if (namePlayer == null) {
+            ControllerClient.initializeMainMenuView("Erreur lors de la connxion à la partie",
+                                                    playerNameLabel.getText());
+            return;
+        }
 
         ControllerClient.initializeReadyView(playerNameLabel.getText(), null);
     }

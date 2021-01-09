@@ -213,6 +213,20 @@ public class ClientNetwork {
 
         MessageAttachment<ListGames> answer = (MessageAttachment) this.sendMessage(message);
 
+    public NamePlayer sendJoinAsPlayerMessage(String playerName, String ip, int port) {
+        this.changeConnnection(port, ip);
+
+        Message message = new MessageAttachment<NamePlayer>(ClientMessageType.JOIN_AS_PLAYER.getValue(), new NamePlayer(playerName));
+        Message receivedMessage = this.sendMessage(message);
+
+        if (receivedMessage == null) {
+            return null;
+        } else if (receivedMessage.getCode() != ServerMessageType.OK.getValue())  {
+            return null;
+        }
+
+        MessageAttachment<NamePlayer> answer = (MessageAttachment<NamePlayer>) receivedMessage;
+
         return answer.getAttachment();
     }
 }
