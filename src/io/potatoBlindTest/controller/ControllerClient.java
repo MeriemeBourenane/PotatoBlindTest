@@ -17,6 +17,11 @@ public class ControllerClient extends Application {
     private static UIController currentController;
     private static ClientNetwork transport;
 
+
+    public static UIController getCurrentController() {
+        return currentController;
+    }
+
     public static ClientNetwork getTransport() {
         return transport;
     }

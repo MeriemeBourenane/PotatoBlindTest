@@ -134,7 +134,7 @@ public class ClientNetwork {
                         System.out.println("[ClientNetwork] attachment received : " + ((MessageAttachment)messageReceived).getAttachment());
                     }
 
-                    System.out.println("Message coming from server , maybe update channel");
+                    ControllerClient.getCurrentController().handleMessage(messageReceived);
                 }
             } catch (IOException | ClassNotFoundException e) {
                 System.out.println("SERVER CLOSED !");
