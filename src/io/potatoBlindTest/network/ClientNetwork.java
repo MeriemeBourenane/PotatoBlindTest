@@ -1,6 +1,7 @@
 package io.potatoBlindTest.network;
 
 import io.potatoBlindTest.controller.ControllerClient;
+import io.potatoBlindTest.gameEngine.ListGames;
 import io.potatoBlindTest.gameEngine.NameCreator;
 import io.potatoBlindTest.network.communication.Message;
 import io.potatoBlindTest.network.communication.MessageAttachment;
@@ -183,5 +184,18 @@ public class ClientNetwork {
         receivedMessage = this.sendMessage(message);
 
         return ServerMessageType.valueOfLabel(receivedMessage.getCode());
+    }
+
+    public ListGames sendSearchGamesMessage() {
+        Message message = new Message(ClientMessageType.GET_ALL_GAMES.getValue());
+        Message receivedMessage = this.sendMessage(message);
+
+        if (receivedMessage.getCode() != ServerMessageType.OK.getValue())  {
+            return null;
+        }
+
+        MessageAttachment<ListGames> answer = (MessageAttachment) this.sendMessage(message);
+
+        return answer.getAttachment();
     }
 }

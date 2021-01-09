@@ -1,6 +1,7 @@
 package io.potatoBlindTest.controller;
 
 import io.potatoBlindTest.gameEngine.Game;
+import io.potatoBlindTest.gameEngine.ListGames;
 import io.potatoBlindTest.network.communication.Message;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -43,7 +44,14 @@ public class SearchGamesController implements UIController {
 
     @FXML
     void handleRefresh() {
-        // TODO: Handle the refresh
+        ListGames listGames = ControllerClient.getTransport().sendSearchGamesMessage();
+
+        if (listGames == null) {
+            ControllerClient.initializeMainMenuView("Erreur lors de la récupération des parties",
+                    playerNameLabel.getText());
+        } else {
+            setGameValue(listGames.getListGames());
+        }
 
     }
 

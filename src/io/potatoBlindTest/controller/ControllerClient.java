@@ -1,7 +1,6 @@
 package io.potatoBlindTest.controller;
 
-import io.potatoBlindTest.gameEngine.Game;
-import io.potatoBlindTest.gameEngine.Player;
+import io.potatoBlindTest.gameEngine.ListGames;
 import io.potatoBlindTest.gameEngine.TableScore;
 import io.potatoBlindTest.gameEngine.TurnResult;
 import io.potatoBlindTest.network.ClientNetwork;
@@ -11,7 +10,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.List;
 
 public class ControllerClient extends Application {
 
@@ -29,6 +27,7 @@ public class ControllerClient extends Application {
 
     /**
      * Load a new scene
+     *
      * @param fxml the fxml file to load
      * @return return the loader for future customizations
      */
@@ -116,11 +115,25 @@ public class ControllerClient extends Application {
         /**
          * TODO: Replace those values
          */
-        Game game1 = new Game("Ma groffPatate", 42, "192.168.1.2", 5000);
-        Game game2 = new Game("Ma groffPatate 2", 2,"192.168.1.2", 5000);
-        loader.<SearchGamesController>getController().setGameValue(List.of(game1, game2));
+        /**
+         * Request the creation of the game at the server
+         */
+        try {
+            transport = new ClientNetwork();
+        } catch (IOException e) {
+            initializeMainMenuView("Impossible de contacter le serveur", playerName);
+            return;
+        }
 
-        ControllerClient.showScene();
+        ListGames listGames = transport.sendSearchGamesMessage();
+
+        if (listGames == null) {
+            initializeMainMenuView("Erreur lors de la récupération des parties", playerName);
+        } else {
+            loader.<SearchGamesController>getController().setGameValue(listGames.getListGames());
+            ControllerClient.showScene();
+        }
+
 
     }
 
