@@ -20,6 +20,8 @@ public class ClientMesssageMapping {
                     put(ClientMessageType.JOIN_AS_PLAYER.getValue(), new JoinAsPlayer());
                     put(ClientMessageType.JOIN_AS_CREATOR.getValue(), new JoinAsCreator());
                     put(ClientMessageType.SUBMIT_ANSWER.getValue(), new SubmitAnswer());
+                    put(ClientMessageType.START_THE_GAME.getValue(), new JoinAsCreator());
+
                 }
             };
 
