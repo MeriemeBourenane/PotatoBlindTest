@@ -71,7 +71,9 @@ public class ControllerClient extends Application {
     public static void shutdown() {
         // TODO: Close all resources
         System.out.println("[DEBUG] Closing Application");
-        transport.closeNetwork();
+        if (transport != null) {
+            transport.closeNetwork();
+        }
         System.out.println("[DEBUG] Application closed");
     }
 
