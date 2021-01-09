@@ -1,14 +1,20 @@
 package io.potatoBlindTest.gameEngine;
 
 import java.io.File;
-import java.io.Serializable;
 
-public class Turn implements Serializable {
+public class Turn {
 
     private Player playerWinner;
     private String fileName;
     private File file;
     private String answer;
+
+    public Turn() {
+        this.fileName = null;
+        this.file = null;
+        this.answer = null;
+        this.playerWinner = null;
+    }
 
     public Turn(String fileName, File file, String answer) {
         this.fileName = fileName;
