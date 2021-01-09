@@ -3,6 +3,7 @@ package io.potatoBlindTest.network.handlerMessage.serverNetwork.clientMessageTyp
 import io.potatoBlindTest.gameEngine.NameCreator;
 import io.potatoBlindTest.gameEngine.NamePlayer;
 import io.potatoBlindTest.gameEngine.Player;
+import io.potatoBlindTest.gameEngine.statsGame.StatesGame;
 import io.potatoBlindTest.network.ClientHandler;
 import io.potatoBlindTest.network.ServerGame;
 import io.potatoBlindTest.network.ServerNetwork;
@@ -15,21 +16,25 @@ public class JoinAsCreator implements ClientMessageHandler<NameCreator> {
 
     @Override
     public Message handle(NameCreator dataMessage, ClientHandler clientHandlers) {
+        System.out.println("Handling Join as creator ...");
         // Join as creator :
         //  - put the creator in the mapPlayerSocket
         //  - initialize the Player creator
-        Message messageReceived = null;
+        Message messageToSend = null;
 
         if (clientHandlers.getServerNetwork().isServerGame() && ((ServerGame)clientHandlers.getServerNetwork()).getCreator() == null) {
             Player creator = new Player(dataMessage.getName(), true);
             ((ServerGame)clientHandlers.getServerNetwork()).setCreator(creator);
-            ((ServerGame)clientHandlers.getServerNetwork()).getMapPlayerSocket().put(creator, clientHandlers.getSocket());
-            messageReceived = new Message(ServerMessageType.OK.getValue());
+            ((ServerGame)clientHandlers.getServerNetwork()).getMapPlayerClientHandler().put(creator, clientHandlers);
+            ((ServerGame)clientHandlers.getServerNetwork()).setStatesGame(StatesGame.INIT);
+
+            messageToSend = new Message(ServerMessageType.OK.getValue());
             System.out.println("[JoinAsCreator] Creator : " + ((ServerGame) clientHandlers.getServerNetwork()).getCreator());
-        } else {;
-            messageReceived = new Message(ServerMessageType.FORBIDDEN.getValue());
+
+        } else {
+            messageToSend = new Message(ServerMessageType.FORBIDDEN.getValue());
         }
 
-        return messageReceived;
+        return messageToSend;
     }
 }
