@@ -3,6 +3,7 @@ package io.potatoBlindTest.network;
 import io.potatoBlindTest.controller.ControllerClient;
 import io.potatoBlindTest.gameEngine.ListGames;
 import io.potatoBlindTest.gameEngine.NameCreator;
+import io.potatoBlindTest.gameEngine.NamePlayer;
 import io.potatoBlindTest.network.communication.Message;
 import io.potatoBlindTest.network.communication.MessageAttachment;
 import io.potatoBlindTest.network.communication.additionalAttachements.SpecificServerGame;
@@ -70,7 +71,7 @@ public class ClientNetwork {
     /**
      * Method to send a Message to the server
      * @param sendMessage Message
-     * @return Message
+     * @return Message null if client error, message from server otherwise
      * @throws InterruptedException e
      */
     public Message sendMessage(Message sendMessage) {
@@ -82,7 +83,7 @@ public class ClientNetwork {
 
         } catch (IOException e) {
             System.out.println("Writing error sendMessage");
-            e.printStackTrace();
+            return null;
         }
 
         // Waiting until response variable is set
@@ -178,7 +179,7 @@ public class ClientNetwork {
             this.oos.close();
             this.socket.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("[ClientNetwork] Error while closing client");
         }
 
     }
@@ -188,7 +189,9 @@ public class ClientNetwork {
         Message message = new Message(ClientMessageType.CREATE_GAME.getValue());
         Message receivedMessage = this.sendMessage(message);
 
-        if (receivedMessage.getCode() != ServerMessageType.OK.getValue())  {
+        if (receivedMessage == null) {
+            return ServerMessageType.ERROR_SERVER;
+        } else if (receivedMessage.getCode() != ServerMessageType.OK.getValue()) {
             return ServerMessageType.valueOfLabel(receivedMessage.getCode());
         }
 
@@ -200,6 +203,10 @@ public class ClientNetwork {
 
         receivedMessage = this.sendMessage(message);
 
+        if (receivedMessage == null) {
+            return ServerMessageType.ERROR_SERVER;
+        }
+
         return ServerMessageType.valueOfLabel(receivedMessage.getCode());
     }
 
@@ -207,11 +214,19 @@ public class ClientNetwork {
         Message message = new Message(ClientMessageType.GET_ALL_GAMES.getValue());
         Message receivedMessage = this.sendMessage(message);
 
-        if (receivedMessage.getCode() != ServerMessageType.OK.getValue())  {
+        if (receivedMessage == null) {
+            return null;
+        } else if (receivedMessage.getCode() != ServerMessageType.OK.getValue())  {
             return null;
         }
 
         MessageAttachment<ListGames> answer = (MessageAttachment) this.sendMessage(message);
+
+        if (receivedMessage == null) {
+            return null;
+        }
+        return answer.getAttachment();
+    }
 
     public NamePlayer sendJoinAsPlayerMessage(String playerName, String ip, int port) {
         this.changeConnnection(port, ip);
