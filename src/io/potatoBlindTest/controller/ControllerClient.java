@@ -194,9 +194,27 @@ public class ControllerClient extends Application {
     public static void initializeWaitingTurnView(String playerName) {
         FXMLLoader loader = ControllerClient.changeScene("resources/waitingTurnView.fxml");
 
-        loader.<WaitingTurnView>getController().setPlayerName(playerName);
+        loader.<WaitingTurnController>getController().setPlayerName(playerName);
 
-        ControllerClient.showScene();
+        switch (ControllerClient.getTransport().sendReadyPlayerMessage()) {
+            case OK:
+                ControllerClient.showScene();
+                break;
+            case ERROR_SERVER:
+                ControllerClient.initializeMainMenuView("Erreur interne du serveur", playerName);
+                break;
+            case FORBIDDEN:
+                ControllerClient.initializeMainMenuView("Opération non autorisée par le serveur", playerName);
+                break;
+            case NOT_FOUND:
+                ControllerClient.initializeMainMenuView("Opération non traitée par le serveur", playerName);
+                break;
+            default:
+                ControllerClient.initializeMainMenuView("Erreur interne", playerName);
+                break;
+        }
+
+
 
     }
 

@@ -1,6 +1,7 @@
 package io.potatoBlindTest.controller;
 
 import io.potatoBlindTest.gameEngine.Turn;
+import io.potatoBlindTest.gameEngine.TurnFile;
 import io.potatoBlindTest.network.communication.Message;
 import io.potatoBlindTest.network.communication.MessageAttachment;
 import io.potatoBlindTest.network.handlerMessage.clientNetwork.serverTypesMessages.ServerMessageType;
@@ -11,8 +12,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
-public class WaitingTurnView implements UIController {
+public class WaitingTurnController implements UIController {
 
     @FXML
     private Label playerNameLabel;
@@ -30,16 +34,30 @@ public class WaitingTurnView implements UIController {
     public void handleMessage(Message incomingMessage) {
         switch (ServerMessageType.valueOfLabel(incomingMessage.getCode())) {
             case TURN_FILE:
-                Turn turnMessageAttachment = ((MessageAttachment<Turn>)incomingMessage).getAttachment();
+                TurnFile turnFile = ((MessageAttachment<TurnFile>)incomingMessage).getAttachment();
+                File file = null;
+                try {
+                    file = File.createTempFile("temp", null);
+                    byte[] byteArray = turnFile.getFileByteArray();
+                    FileOutputStream mediaStream;
+                    mediaStream = new FileOutputStream(file);
+                    mediaStream.write(byteArray);
+                } catch (IOException e) {
+                    System.out.println("[WaitingTurnController] Error while retrieving the file");
+                }
+                File finalFile = file;
                 Platform.runLater(() -> {
                     setGif("resources/countdown.gif");
-                    try {
-                        Thread.sleep(3000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    ControllerClient.initializeTurnView(playerNameLabel.getText());
                 });
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Platform.runLater(() -> {
+                    ControllerClient.initializeTurnView(playerNameLabel.getText(), finalFile);
+                });
+
                 break;
             default:
                 System.out.println("Unwanted message");
@@ -48,7 +66,7 @@ public class WaitingTurnView implements UIController {
     }
 
     private void setGif(String path) {
-        File file = new File(this.getClass().getResource("resources/waiting.gif").getPath());
+        File file = new File(this.getClass().getResource(path).getPath());
 
         String localUrl = null;
         localUrl = file.toURI().toString();
