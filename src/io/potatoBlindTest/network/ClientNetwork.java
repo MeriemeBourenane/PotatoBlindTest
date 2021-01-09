@@ -1,8 +1,12 @@
 package io.potatoBlindTest.network;
 
 import io.potatoBlindTest.controller.ControllerClient;
+import io.potatoBlindTest.gameEngine.NameCreator;
 import io.potatoBlindTest.network.communication.Message;
 import io.potatoBlindTest.network.communication.MessageAttachment;
+import io.potatoBlindTest.network.communication.additionalAttachements.SpecificServerGame;
+import io.potatoBlindTest.network.handlerMessage.clientNetwork.serverTypesMessages.ServerMessageType;
+import io.potatoBlindTest.network.handlerMessage.serverNetwork.ClientTypesMessages.ClientMessageType;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -68,7 +72,7 @@ public class ClientNetwork {
      * @return Message
      * @throws InterruptedException e
      */
-    public Message sendMessage(Message sendMessage) throws InterruptedException {
+    public Message sendMessage(Message sendMessage) {
         Message response = null;
 
         try {
@@ -83,7 +87,11 @@ public class ClientNetwork {
         // Waiting until response variable is set
         System.out.println("Waiting until the response varibale is set ...");
         this.lock.lock();
-        this.condition.await();
+        try {
+            this.condition.await();
+        } catch (InterruptedException e) {
+            return null;
+        }
         if (this.response == null) {
             System.out.println("sendMessage An error occurred : response null");
         } else {
@@ -155,5 +163,25 @@ public class ClientNetwork {
 
     public Socket getSocket() {
         return socket;
+    }
+
+
+    public ServerMessageType sendCreateGameMessage(String creatorName) {
+        Message message = new Message(ClientMessageType.CREATE_GAME.getValue());
+        Message receivedMessage = this.sendMessage(message);
+
+        if (receivedMessage.getCode() != ServerMessageType.OK.getValue())  {
+            return ServerMessageType.valueOfLabel(receivedMessage.getCode());
+        }
+
+        MessageAttachment<SpecificServerGame> answer = (MessageAttachment) receivedMessage;
+
+        this.changeConnnection(answer.getAttachment().getPort(), answer.getAttachment().getIpAddress());
+        NameCreator nameCreator = new NameCreator(creatorName);
+        message = new MessageAttachment<NameCreator>(ClientMessageType.JOIN_AS_CREATOR.getValue(), nameCreator);
+
+        receivedMessage = this.sendMessage(message);
+
+        return ServerMessageType.valueOfLabel(receivedMessage.getCode());
     }
 }

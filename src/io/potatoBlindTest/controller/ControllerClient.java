@@ -78,7 +78,34 @@ public class ControllerClient extends Application {
 
         loader.<CreateGameController>getController().setPlayerName(playerName);
 
-        ControllerClient.showScene();
+        /**
+         * Request the creation of the game at the server
+         */
+        try {
+            transport = new ClientNetwork();
+        } catch (IOException e) {
+            initializeMainMenuView("Impossible de contacter le serveur", playerName);
+            return;
+        }
+
+        switch (transport.sendCreateGameMessage(playerName)) {
+            case OK:
+                ControllerClient.showScene();
+                break;
+            case ERROR_SERVER:
+                initializeMainMenuView("Erreur interne du serveur", playerName);
+                break;
+            case FORBIDDEN:
+                initializeMainMenuView("Opération non authorisé par le serveur", playerName);
+                break;
+            case NOT_FOUND:
+                initializeMainMenuView("Opération non traité par le serveur", playerName);
+                break;
+            default:
+                initializeMainMenuView("Erreur interne", playerName);
+                break;
+        }
+
 
     }
 
