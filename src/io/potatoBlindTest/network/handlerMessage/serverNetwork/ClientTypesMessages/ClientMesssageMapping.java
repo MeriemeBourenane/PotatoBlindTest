@@ -1,10 +1,7 @@
 package io.potatoBlindTest.network.handlerMessage.serverNetwork.ClientTypesMessages;
 
 import io.potatoBlindTest.network.handlerMessage.clientNetwork.serverTypesMessages.ServerMessageType;
-import io.potatoBlindTest.network.handlerMessage.serverNetwork.clientMessageTypeHandlers.game.CreateGame;
-import io.potatoBlindTest.network.handlerMessage.serverNetwork.clientMessageTypeHandlers.game.GetAllGames;
-import io.potatoBlindTest.network.handlerMessage.serverNetwork.clientMessageTypeHandlers.game.JoinAsCreator;
-import io.potatoBlindTest.network.handlerMessage.serverNetwork.clientMessageTypeHandlers.game.JoinAsPlayer;
+import io.potatoBlindTest.network.handlerMessage.serverNetwork.clientMessageTypeHandlers.game.*;
 import io.potatoBlindTest.network.handlerMessage.serverNetwork.clientMessageTypeHandlers.turn.SubmitAnswer;
 
 import java.util.HashMap;
@@ -20,7 +17,7 @@ public class ClientMesssageMapping {
                     put(ClientMessageType.JOIN_AS_PLAYER.getValue(), new JoinAsPlayer());
                     put(ClientMessageType.JOIN_AS_CREATOR.getValue(), new JoinAsCreator());
                     put(ClientMessageType.SUBMIT_ANSWER.getValue(), new SubmitAnswer());
-                    put(ClientMessageType.START_THE_GAME.getValue(), new JoinAsCreator());
+                    put(ClientMessageType.START_THE_GAME.getValue(), new StartTheGame());
 
                 }
             };
