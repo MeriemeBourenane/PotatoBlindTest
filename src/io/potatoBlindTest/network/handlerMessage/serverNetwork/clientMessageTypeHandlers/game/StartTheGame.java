@@ -31,7 +31,7 @@ public class StartTheGame extends SubjectClientHandler implements ClientMessageH
                         .get(((ServerGame)clientHandlers.getServerNetwork()).getCreator()) &&
                 ((ServerGame)clientHandlers.getServerNetwork()).getStatesGame() == StatesGame.INIT) {
 
-            ((ServerGame)clientHandlers.getServerNetwork()).setStatesGame(StatesGame.SATARTED);
+            ((ServerGame)clientHandlers.getServerNetwork()).setStatesGame(StatesGame.STARTED);
             messageToSend = new Message(ServerMessageType.OK.getValue());
         } else {
             messageToSend = new Message(ServerMessageType.FORBIDDEN.getValue());
