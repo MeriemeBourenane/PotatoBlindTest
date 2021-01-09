@@ -1,6 +1,7 @@
 package io.potatoBlindTest.network.handlerMessage.serverNetwork.clientMessageTypeHandlers.game;
 
 import io.potatoBlindTest.gameEngine.Player;
+import io.potatoBlindTest.gameEngine.statsGame.StatesGame;
 import io.potatoBlindTest.network.ClientHandler;
 import io.potatoBlindTest.network.ServerGame;
 import io.potatoBlindTest.network.ServerNetwork;
@@ -26,6 +27,7 @@ public class CreateGame implements ClientMessageHandler<Player> {
         // - send the new ServerSocket 's ServerGame to the client
         Message messageToSend;
         ServerGame newServerGame = Network.createServerGame();
+        newServerGame.setStatesGame(StatesGame.CREATED);
 
         if (newServerGame == null) {
             messageToSend = new Message(ServerMessageType.FORBIDDEN.getValue());
