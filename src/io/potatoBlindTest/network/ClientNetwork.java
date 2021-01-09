@@ -119,6 +119,7 @@ public class ClientNetwork {
                     // Notify with signalAll that response has been set
                     this.lock.lock();
                     System.out.println("readContinuouslyMessages into lock");
+                    System.out.println("[ClientNetwork] code received : " + messageReceived.getCode());
                     this.response = messageReceived;
                     this.condition.signalAll();
                     this.lock.unlock();
@@ -128,6 +129,10 @@ public class ClientNetwork {
                     //  - notify ControllerClient of the reception of the messsage using Oberver Pattern
                     //  - (example : call method setChannels to update channels attribut)
                     // ServerMessageHandler(messageReceived);
+                    System.out.println("[ClientNetwork] code received : " + messageReceived.getCode());
+                    if (messageReceived.hasAttachment()) {
+                        System.out.println("[ClientNetwork] attachment received : " + ((MessageAttachment)messageReceived).getAttachment());
+                    }
 
                     System.out.println("Message coming from server , maybe update channel");
                 }
