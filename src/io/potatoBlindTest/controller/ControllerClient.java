@@ -210,6 +210,12 @@ public class ControllerClient extends Application {
             loader.<RootController>getController().setPlayerName(playerName);
         }
 
+        if (transport != null) {
+            System.out.println("[ClientController] Closing the network");
+            transport.closeNetwork();
+            transport = null;
+        }
+
         ControllerClient.showScene();
     }
 
