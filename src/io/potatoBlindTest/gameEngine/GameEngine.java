@@ -1,11 +1,11 @@
 package io.potatoBlindTest.gameEngine;
 
+import io.potatoBlindTest.gameEngine.typeOfMedia.TypeOfMedia;
 import io.potatoBlindTest.network.MainServerNetwork;
-import javafx.scene.control.Tab;
 
 import java.io.File;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -15,6 +15,7 @@ public class GameEngine {
     private Turn currentTurn;
     private File resourcesFolder;
     private File selectedFolder;
+    private TypeOfMedia typeOfMediaSelectedFolder;
     private final int numberOfTurn = 3;
     private List<File> history;
 
@@ -23,16 +24,32 @@ public class GameEngine {
         this.currentTurn = new Turn();
         this.history = new ArrayList<>();
         this.resourcesFolder = new File(MainServerNetwork.getDataFolderPath());
-        this.selectFolderTypeOfMedia();
+        this.selectFolderTheme();
+        this.selectTypeOfMedia();
         System.out.println("[GameEngine] selected");
     }
 
-    public void selectFolderTypeOfMedia() {
+    public void selectFolderTheme() {
         // Only select folders
         File [] listFiles = resourcesFolder.listFiles(file -> file.isDirectory());
 
         Random rand = new Random();
         int selected = rand.nextInt(listFiles.length);
+        this.selectedFolder = listFiles[selected];
+    }
+
+    public void selectTypeOfMedia() {
+        File [] listFiles = this.selectedFolder.listFiles(file -> file.isDirectory());
+
+        Random rand = new Random();
+        int selected = rand.nextInt(listFiles.length);
+
+        if (listFiles[selected].getName().toLowerCase().equals(TypeOfMedia.IMAGE.toString().toLowerCase())) {
+            this.typeOfMediaSelectedFolder = TypeOfMedia.IMAGE;
+        } else if (listFiles[selected].getName().toLowerCase().equals(TypeOfMedia.AUDIO.toString().toLowerCase())) {
+            this.typeOfMediaSelectedFolder = TypeOfMedia.AUDIO;
+        }
+
         this.selectedFolder = listFiles[selected];
     }
 
@@ -47,7 +64,8 @@ public class GameEngine {
     public Turn newTurn() {
         File turnFile = chooseFileInFolder();
         String answer = turnFile.getName().toUpperCase().replace("_", " ");
-        this.setCurrentTurn(new Turn(turnFile, answer));
+
+        this.setCurrentTurn(new Turn(turnFile, answer, this.typeOfMediaSelectedFolder));
 
         return this.currentTurn;
     }
