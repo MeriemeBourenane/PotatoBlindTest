@@ -83,8 +83,6 @@ public class WaitingTurnController implements UIController {
 
     @Override
     public void handleErrorNetwork() {
-        Platform.runLater(() -> {
-            ControllerClient.initializeMainMenuView("Erreur de serveur", playerNameLabel.getText());
-        });
+        return;
     }
 }
