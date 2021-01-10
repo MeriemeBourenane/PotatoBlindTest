@@ -1,5 +1,7 @@
 package io.potatoBlindTest.gameEngine;
 
+import io.potatoBlindTest.gameEngine.typeOfMedia.TypeOfMedia;
+
 import java.io.File;
 
 public class Turn {
@@ -7,17 +9,20 @@ public class Turn {
     private Player playerWinner;
     private File file;
     private String answer;
+    private TypeOfMedia typeOfMedia;
 
     public Turn() {
         this.file = null;
         this.answer = null;
         this.playerWinner = null;
+        this.typeOfMedia = null;
     }
 
-    public Turn( File file, String answer) {
+    public Turn( File file, String answer, TypeOfMedia typeOfMedia) {
         this.file = file;
         this.answer = answer;
         this.playerWinner = null;
+        this.typeOfMedia = typeOfMedia;
     }
 
     public Player getPlayerWinner() {
@@ -31,6 +36,10 @@ public class Turn {
 
     public File getFile() {
         return file;
+    }
+
+    public TypeOfMedia getTypeOfMedia() {
+        return typeOfMedia;
     }
 
     public void setFile(File file) {
@@ -51,6 +60,7 @@ public class Turn {
                 "playerWinner=" + playerWinner +
                 ", file=" + file +
                 ", answer='" + answer + '\'' +
+                ", typeOfMedia=" + typeOfMedia +
                 '}';
     }
 }
