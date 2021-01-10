@@ -23,7 +23,7 @@ public class ServerNetwork {
 
         this.exectutorService = Executors.newFixedThreadPool(7);
         this.completionService = new ExecutorCompletionService<>(this.exectutorService);
-        this.serverSocket = new ServerSocket(50_200);
+        this.serverSocket = new ServerSocket(20_200);
 
         this.threadReadMessage = new Thread(() -> this.runServer());
         threadReadMessage.start();
