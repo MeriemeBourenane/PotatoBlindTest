@@ -6,7 +6,7 @@ import java.net.ServerSocket;
 public class NetworkUtils {
 
     public static ServerSocket create() throws IOException {
-        for (int port = 50_001; port < 65_535; ++port) {
+        for (int port = 20_001; port < 20_006; ++port) {
             try {
                 return new ServerSocket(port);
             } catch (IOException ex) {
