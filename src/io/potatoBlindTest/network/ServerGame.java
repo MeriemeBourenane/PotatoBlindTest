@@ -2,7 +2,12 @@ package io.potatoBlindTest.network;
 
 import io.potatoBlindTest.gameEngine.GameEngine;
 import io.potatoBlindTest.gameEngine.Player;
+import io.potatoBlindTest.gameEngine.Turn;
+import io.potatoBlindTest.gameEngine.TurnFile;
 import io.potatoBlindTest.gameEngine.statsGame.StatesGame;
+import io.potatoBlindTest.network.communication.Message;
+import io.potatoBlindTest.network.communication.MessageAttachment;
+import io.potatoBlindTest.network.handlerMessage.clientNetwork.serverTypesMessages.ServerMessageType;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -79,12 +84,42 @@ public class ServerGame extends ServerNetwork {
         if (entry.isPresent()) {
             System.out.println("[ServerGame] Player has left the game");
             getMapPlayerClientHandler().entrySet().remove(entry.get());
-            if (entry.get().getKey().getCreator()) {
-                System.out.println("[ServerGame] Creator has left the game");
-                creatorHasLeftTheGame();
+
+            if (statesGame.equals(StatesGame.INIT)) {
+                if (entry.get().getKey().getCreator()) {
+                    System.out.println("[ServerGame] Creator has left the game");
+                    mapPlayerClientHandler.values().forEach(clientHandler -> clientHandler.closeNetwork());
+                }
+
+            } else if (statesGame.equals(StatesGame.STARTED)) {
+                // Maybe one day something will be implemented there
             }
+
+            // Verify again the nb of ready players
+            if (nbReadyPlayer.get() == this.mapPlayerClientHandler.size()) {
+                this.nbReadyPlayer.set(0);
+
+                Thread threadNotify = new Thread(() -> {
+                    // Call game engine to choose a file
+                    Turn turn = this.gameEngine.newTurn();
+                    TurnFile turnFile = new TurnFile(turn.getFile(), turn.getTypeOfMedia());
+
+                    Message notification = new MessageAttachment<TurnFile>(ServerMessageType.TURN_FILE.getValue(), turnFile);
+
+                    for (Player playerEntry: this.mapPlayerClientHandler.keySet()) {
+                        try {
+                            this.notifyClient(this.mapPlayerClientHandler.get(playerEntry),notification);
+                        } catch (Exception e) {
+                            System.out.println("[ServerGame]->[thread notify] Can't notify the players ...");
+                        }
+                    }
+
+                });
+                threadNotify.start();
+            }
+
         } else {
-            // TODO: No entry, strange
+            // TODO: No entry, strange ...
             System.out.println("[ServerGame] Someone has left the game");
 
         }
@@ -95,11 +130,10 @@ public class ServerGame extends ServerNetwork {
         }
 
     }
-    public void creatorHasLeftTheGame() {
-        if (statesGame.equals(StatesGame.INIT)) {
-            mapPlayerClientHandler.values().forEach(clientHandler -> clientHandler.closeNetwork());
-            removeGameFromList();
-        }
+
+    public void notifyClient(ClientHandler clientToNotify, Message messageNotify) {
+        System.out.println("[ServerGame] Notifying ...");
+        clientToNotify.notify(messageNotify);
     }
 
     @Override
