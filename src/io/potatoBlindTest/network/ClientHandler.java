@@ -10,8 +10,12 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.stream.Collectors;
 
 public class ClientHandler implements Callable, OberverClientHandler {
 
@@ -49,6 +53,10 @@ public class ClientHandler implements Callable, OberverClientHandler {
                 System.out.println("Server Client Handler can't read messages : IO ...");
                 System.out.println("CLIENT CLOSED : maybe the connection has been closed !");
                 this.socket.close();
+                // Remove the player
+                if (serverNetwork.isServerGame()) {
+                    ((ServerGame) serverNetwork).playerHasLeftTheGame(this);
+                }
                 return 1;
             }
         }
@@ -71,6 +79,17 @@ public class ClientHandler implements Callable, OberverClientHandler {
 
     public ServerNetwork getServerNetwork() {
         return serverNetwork;
+    }
+
+    public void closeNetwork() {
+        try {
+            this.ois.close();
+            this.oos.close();
+            this.socket.close();
+        } catch (IOException e) {
+            System.out.println("[ClientHandler] Error while closing clienthandler");
+        }
+
     }
 
 }

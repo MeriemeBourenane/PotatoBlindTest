@@ -6,6 +6,8 @@ import io.potatoBlindTest.gameEngine.statsGame.StatesGame;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -60,6 +62,43 @@ public class ServerGame extends ServerNetwork {
 
     public GameEngine getGameEngine() {
         return gameEngine;
+    }
+
+    public void removeGameFromList() {
+        System.out.println("[ServerGame] Remove the server game from the list");
+        serverGames.remove(this);
+    }
+
+    public void playerHasLeftTheGame(ClientHandler player) {
+        Optional<Map.Entry<Player, ClientHandler>> entry = getMapPlayerClientHandler()
+                .entrySet()
+                .stream()
+                .filter(playerClientHandlerEntry -> playerClientHandlerEntry.getValue().equals(player))
+                .findFirst();
+        if (entry.isPresent()) {
+            System.out.println("[ServerGame] Player has left the game");
+            getMapPlayerClientHandler().entrySet().remove(entry.get());
+            if (entry.get().getKey().getCreator()) {
+                System.out.println("[ServerGame] Creator has left the game");
+                creatorHasLeftTheGame();
+            }
+        } else {
+            // TODO: No entry, strange
+            System.out.println("[ServerGame] Someone has left the game");
+
+        }
+
+        // stop the server if all client has left the game
+        if (getMapPlayerClientHandler().size() == 0) {
+            this.shutdown();
+        }
+
+    }
+    public void creatorHasLeftTheGame() {
+        if (statesGame.equals(StatesGame.INIT)) {
+            mapPlayerClientHandler.values().forEach(clientHandler -> clientHandler.closeNetwork());
+            removeGameFromList();
+        }
     }
 
     @Override
