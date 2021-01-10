@@ -66,6 +66,10 @@ public class Player implements Serializable {
         this.rank = rank;
     }
 
+    public Boolean getCreator() {
+        return isCreator;
+    }
+
     @Override
     public String toString() {
         return "Player{" +
