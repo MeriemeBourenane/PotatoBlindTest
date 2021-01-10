@@ -50,6 +50,8 @@ public class SubmitAnswer extends SubjectClientHandler implements ClientMessageH
         if (messageToSend.getCode() == ServerMessageType.OK.getValue() && isCorrectAnswer.isCorrect()) {
             Thread threadNotify = new Thread(() -> {
                 // TODO: Temporary solution
+                //  - need to wait until the answer is written and thus sent
+                //  - maybe be use
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
