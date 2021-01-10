@@ -137,7 +137,8 @@ public class ClientNetwork {
                 }
             } catch (IOException | ClassNotFoundException e) {
                 System.out.println("SERVER CLOSED !");
-
+                e.printStackTrace();
+                System.out.println("connected : " + this.socket.isBound() + " shutdown : " + this.socket.isInputShutdown() + " " + this.socket.isOutputShutdown());
                 ControllerClient.getCurrentController().handleErrorNetwork();
                 break;
             }

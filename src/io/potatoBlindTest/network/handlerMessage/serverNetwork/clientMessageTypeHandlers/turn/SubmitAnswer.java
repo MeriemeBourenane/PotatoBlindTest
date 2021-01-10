@@ -49,6 +49,12 @@ public class SubmitAnswer extends SubjectClientHandler implements ClientMessageH
 
         if (messageToSend.getCode() == ServerMessageType.OK.getValue() && isCorrectAnswer.isCorrect()) {
             Thread threadNotify = new Thread(() -> {
+                // TODO: Temporary solution
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 Message notification;
                 // Call game engine to choose a file
                 if (serverGameEngine.isLastTurn()) {
