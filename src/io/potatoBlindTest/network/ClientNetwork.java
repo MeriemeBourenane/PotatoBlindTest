@@ -22,7 +22,7 @@ public class ClientNetwork {
     private Socket socket;
     private InetAddress ip;
     // test local
-    private int serverPort = 50_200;
+    private int serverPort = 20_200;
 
     // port Serveur Ubuntu :
     // final int serverPort = 40_000;
@@ -38,14 +38,14 @@ public class ClientNetwork {
 
     public ClientNetwork() throws IOException {
         this.controllerClient = controllerClient;
-        this.ip = InetAddress.getByName("127.0.0.1");
+        this.ip = InetAddress.getByName(ControllerClient.getIpAddressServer());
         this.socket = new Socket(ip, serverPort);
         this.runClient();
     }
 
     public ClientNetwork(ControllerClient controllerClient) throws IOException {
         this.controllerClient = controllerClient;
-        this.ip = InetAddress.getByName("127.0.0.1");
+        this.ip = InetAddress.getByName(ControllerClient.getIpAddressServer());
         this.socket = new Socket(ip, serverPort);
         this.runClient();
     }
@@ -90,6 +90,8 @@ public class ClientNetwork {
         try {
             this.condition.await();
         } catch (InterruptedException e) {
+            System.out.println("[ClientNetwork] error in wait sendMessage ...");
+            e.printStackTrace();
             return null;
         }
         if (this.response == null) {
