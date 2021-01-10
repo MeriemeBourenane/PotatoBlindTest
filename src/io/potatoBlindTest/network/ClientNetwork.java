@@ -76,16 +76,16 @@ public class ClientNetwork {
         Message response = null;
 
         try {
-            System.out.println("writing sendMessage...");
+            System.out.println("[ClientNetwork] Sending " + sendMessage);
             oos.writeObject(sendMessage);
 
         } catch (IOException e) {
-            System.out.println("Writing error sendMessage");
+            System.out.println("[ClientNetwork] Sending failed");
             return null;
         }
 
         // Waiting until response variable is set
-        System.out.println("Waiting until the response varibale is set ...");
+        System.out.println("[ClientNetwork] Waiting until the response variable is set ...");
         this.lock.lock();
         try {
             this.condition.await();
@@ -93,7 +93,7 @@ public class ClientNetwork {
             return null;
         }
         if (this.response == null) {
-            System.out.println("sendMessage An error occurred : response null");
+            System.out.println("[ClientNetwork] The response is null");
         } else {
             if (this.response.hasAttachment()) {
                 response = new MessageAttachment((MessageAttachment) this.response);
@@ -101,6 +101,7 @@ public class ClientNetwork {
                 response = new Message(this.response);
             }
         }
+        System.out.println("[ClientNetwork] Received " + response);
         this.response = null;
         this.lock.unlock();
         return response;
@@ -117,7 +118,7 @@ public class ClientNetwork {
                 if (messageReceived.getCode() >= 200 && messageReceived.getCode() <= 500) {
                     // Notify with signalAll that response has been set
                     this.lock.lock();
-                    System.out.println("readContinuouslyMessages into lock");
+                    System.out.println("[ClientNetwork] readContinuouslyMessages into lock");
                     System.out.println("[ClientNetwork] code received : " + messageReceived.getCode());
                     this.response = messageReceived;
                     this.condition.signalAll();
@@ -136,7 +137,7 @@ public class ClientNetwork {
                     ControllerClient.getCurrentController().handleMessage(messageReceived);
                 }
             } catch (IOException | ClassNotFoundException e) {
-                System.out.println("SERVER CLOSED !");
+                System.out.println("[ClientNetwork] SERVER CLOSED !");
                 e.printStackTrace();
                 System.out.println("connected : " + this.socket.isBound() + " shutdown : " + this.socket.isInputShutdown() + " " + this.socket.isOutputShutdown());
                 ControllerClient.getCurrentController().handleErrorNetwork();
