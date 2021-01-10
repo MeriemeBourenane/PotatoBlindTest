@@ -37,7 +37,7 @@ public class TurnFile implements Serializable {
     @Override
     public String toString() {
         return "TurnFile{" +
-                "fileByteArray=" + Arrays.toString(fileByteArray) +
+                "fileByteArray=" + "toolong" +
                 '}';
     }
 }
