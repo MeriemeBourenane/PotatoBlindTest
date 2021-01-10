@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class IsCorrectAnswer implements Serializable  {
 
-    private boolean isCorrect;
+    private Boolean isCorrect;
 
     public IsCorrectAnswer(boolean isCorrect) {
         this.isCorrect = isCorrect;
