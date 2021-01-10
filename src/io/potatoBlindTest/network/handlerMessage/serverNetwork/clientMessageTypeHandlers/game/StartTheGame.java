@@ -1,5 +1,6 @@
 package io.potatoBlindTest.network.handlerMessage.serverNetwork.clientMessageTypeHandlers.game;
 
+import io.potatoBlindTest.gameEngine.GameEngine;
 import io.potatoBlindTest.gameEngine.NameCreator;
 import io.potatoBlindTest.gameEngine.NamePlayer;
 import io.potatoBlindTest.gameEngine.Player;
@@ -32,6 +33,15 @@ public class StartTheGame extends SubjectClientHandler implements ClientMessageH
                 ((ServerGame)clientHandlers.getServerNetwork()).getStatesGame() == StatesGame.INIT) {
 
             ((ServerGame)clientHandlers.getServerNetwork()).setStatesGame(StatesGame.STARTED);
+
+            /**
+             * Add player to the game engine
+             */
+            GameEngine serverGameEngine = ((ServerGame)clientHandlers.getServerNetwork()).getGameEngine();
+            for (Player player: ((ServerGame)clientHandlers.getServerNetwork()).getMapPlayerClientHandler().keySet()) {
+                serverGameEngine.addPlayer(player);
+            }
+
             messageToSend = new Message(ServerMessageType.OK.getValue());
         } else {
             messageToSend = new Message(ServerMessageType.FORBIDDEN.getValue());

@@ -58,6 +58,10 @@ public class ServerGame extends ServerNetwork {
         return nbReadyPlayer;
     }
 
+    public GameEngine getGameEngine() {
+        return gameEngine;
+    }
+
     @Override
     public String toString() {
         return "ServerGame{" +
