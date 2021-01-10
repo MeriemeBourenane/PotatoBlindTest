@@ -52,7 +52,8 @@ public class WaitingTurnController implements UIController {
                 try {
                     Thread.sleep(3000);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    System.out.println("[WaitingTurnController] Sleep interrupted");
+                    return;
                 }
                 Platform.runLater(() -> {
                     ControllerClient.initializeTurnView(playerNameLabel.getText(), finalFile);
