@@ -79,12 +79,16 @@ public class TurnController implements UIController {
             case TURN_RESULT:
                 System.out.println("[DEBUG] Received end of turn");
                 TurnResult turnResult = ((MessageAttachment<TurnResult>) incomingMessage).getAttachment();
-                ControllerClient.initializeReadyView(playerNameLabel.getText(), turnResult);
+                Platform.runLater(() -> {
+                    ControllerClient.initializeReadyView(playerNameLabel.getText(), turnResult);
+                });
                 break;
             case END_GAME_RESULTS:
                 System.out.println("[DEBUG] Received end of game");
                 TableScore tableScore = ((MessageAttachment<TableScore>) incomingMessage).getAttachment();
-                ControllerClient.initializeScoreView(playerNameLabel.getText(), tableScore);
+                Platform.runLater(() -> {
+                    ControllerClient.initializeScoreView(playerNameLabel.getText(), tableScore);
+                });
                 break;
             default:
                 System.out.println("Unwanted message");
