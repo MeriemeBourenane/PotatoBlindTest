@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 
 public class ControllerClient extends Application {
@@ -62,7 +63,7 @@ public class ControllerClient extends Application {
         /**
          * Change the controller
          */
-        currentController = loader.<UIController>getController();
+        currentController = loader.getController();
 
         return loader;
     }

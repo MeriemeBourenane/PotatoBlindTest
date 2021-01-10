@@ -21,6 +21,7 @@ public class ReadyController implements UIController {
     @FXML
     private void handleReady() {
         ControllerClient.initializeWaitingTurnView(playerNameLabel.getText());
+
     }
 
 
@@ -35,6 +36,8 @@ public class ReadyController implements UIController {
 
     @Override
     public void handleMessage(Message incomingMessage) {
+
+        System.out.println("[ReadyController] Unwanted message");
         return;
     }
 

@@ -4,5 +4,5 @@ import io.potatoBlindTest.network.communication.Message;
 
 public interface UIController {
 
-    public void handleMessage(Message incomingMessage);
+    void handleMessage(Message incomingMessage);
 }

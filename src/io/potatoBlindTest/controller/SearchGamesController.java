@@ -41,7 +41,7 @@ public class SearchGamesController implements UIController {
                                                                 selectedGame.getIpAddress(),
                                                                 selectedGame.getPort());
         if (namePlayer == null) {
-            ControllerClient.initializeMainMenuView("Erreur lors de la connxion à la partie",
+            ControllerClient.initializeMainMenuView("Erreur lors de la connexion à la partie",
                                                     playerNameLabel.getText());
             return;
         }
