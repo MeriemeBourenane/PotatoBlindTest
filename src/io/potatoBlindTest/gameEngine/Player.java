@@ -54,8 +54,16 @@ public class Player implements Serializable {
         this.score = score;
     }
 
+    public void incrementScore() {
+        this.score++;
+    }
+
     public Integer getRank() {
         return rank;
+    }
+
+    public void setRank(Integer rank) {
+        this.rank = rank;
     }
 
     @Override
