@@ -16,6 +16,7 @@ public class ServerNetwork {
     private ExecutorService exectutorService;
     private CompletionService<Integer> completionService;
     protected ServerSocket serverSocket;
+    protected Thread threadReadMessage = null;
 
     public ServerNetwork() throws IOException {
         serverGames = new CopyOnWriteArrayList<>();
@@ -24,7 +25,7 @@ public class ServerNetwork {
         this.completionService = new ExecutorCompletionService<>(this.exectutorService);
         this.serverSocket = new ServerSocket(50_200);
 
-        Thread threadReadMessage = new Thread(() -> this.runServer());
+        this.threadReadMessage = new Thread(() -> this.runServer());
         threadReadMessage.start();
 
     }
@@ -42,7 +43,7 @@ public class ServerNetwork {
         this.completionService = new ExecutorCompletionService<>(this.exectutorService);
         this.serverSocket = serversocket;
 
-        Thread threadReadMessage = new Thread(() -> this.runServer());
+        this.threadReadMessage = new Thread(() -> this.runServer());
         threadReadMessage.start();
 
     }
@@ -77,8 +78,14 @@ public class ServerNetwork {
     }
 
     public void shutdown() {
-
+        System.out.println("[ServerNetwork] Shutdown of Server");
+        if (this.threadReadMessage != null) {
+            System.out.println("[ServerNetwork] stop the read thread");
+            this.threadReadMessage.interrupt();
+        }
         this.exectutorService.shutdown();
+        System.out.println("[ServerNetwork] Server is shutdown");
+
     }
 
     public ServerSocket getServerSocket() {
