@@ -80,4 +80,11 @@ public class WaitingTurnController implements UIController {
         setGif("resources/waiting.gif");
     }
 
+
+    @Override
+    public void handleErrorNetwork() {
+        Platform.runLater(() -> {
+            ControllerClient.initializeMainMenuView("Erreur de serveur", playerNameLabel.getText());
+        });
+    }
 }

@@ -75,4 +75,9 @@ public class CreateGameController implements UIController {
                 break;
         }
     }
+
+    @Override
+    public void handleErrorNetwork() {
+        return;
+    }
 }

@@ -2,6 +2,7 @@ package io.potatoBlindTest.controller;
 
 import io.potatoBlindTest.gameEngine.TurnResult;
 import io.potatoBlindTest.network.communication.Message;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -49,5 +50,12 @@ public class ReadyController implements UIController {
                     " et c'est " + turnResult.getTurnWinner() + " qui l'a trouvé !");
         }
         this.wonTurnLabel.setVisible(true);
+    }
+
+    @Override
+    public void handleErrorNetwork() {
+        Platform.runLater(() -> {
+            ControllerClient.initializeMainMenuView("Erreur de serveur", playerNameLabel.getText());
+        });
     }
 }

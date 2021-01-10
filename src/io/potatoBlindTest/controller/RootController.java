@@ -1,6 +1,7 @@
 package io.potatoBlindTest.controller;
 
 import io.potatoBlindTest.network.communication.Message;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -63,6 +64,11 @@ public class RootController implements UIController {
 
     @Override
     public void handleMessage(Message incomingMessage) {
+        return;
+    }
+
+    @Override
+    public void handleErrorNetwork() {
         return;
     }
 }

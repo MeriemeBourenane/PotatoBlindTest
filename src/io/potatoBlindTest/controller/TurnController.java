@@ -91,4 +91,9 @@ public class TurnController implements UIController {
                 break;
         }
     }
+
+    @Override
+    public void handleErrorNetwork() {
+        return;
+    }
 }

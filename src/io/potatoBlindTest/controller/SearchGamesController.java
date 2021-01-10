@@ -4,6 +4,7 @@ import io.potatoBlindTest.gameEngine.Game;
 import io.potatoBlindTest.gameEngine.ListGames;
 import io.potatoBlindTest.gameEngine.NamePlayer;
 import io.potatoBlindTest.network.communication.Message;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -83,6 +84,11 @@ public class SearchGamesController implements UIController {
 
     @Override
     public void handleMessage(Message incomingMessage) {
+        return;
+    }
+
+    @Override
+    public void handleErrorNetwork() {
         return;
     }
 }

@@ -53,4 +53,11 @@ public class WaitingStartController implements UIController {
 
         spinnerImage.setImage(image);
     }
+
+    @Override
+    public void handleErrorNetwork() {
+        Platform.runLater(() -> {
+            ControllerClient.initializeMainMenuView("Erreur de serveur", playerNameLabel.getText());
+        });
+    }
 }

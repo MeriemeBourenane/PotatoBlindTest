@@ -2,6 +2,7 @@ package io.potatoBlindTest.controller;
 
 import io.potatoBlindTest.gameEngine.Player;
 import io.potatoBlindTest.network.communication.Message;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -79,5 +80,12 @@ public class ScoreController implements UIController {
     @Override
     public void handleMessage(Message incomingMessage) {
         return;
+    }
+
+    @Override
+    public void handleErrorNetwork() {
+        Platform.runLater(() -> {
+            ControllerClient.initializeMainMenuView("Erreur de serveur", playerNameLabel.getText());
+        });
     }
 }
