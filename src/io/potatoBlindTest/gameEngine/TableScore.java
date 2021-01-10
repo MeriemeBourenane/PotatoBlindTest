@@ -9,7 +9,7 @@ public class TableScore implements Serializable {
 
     private List<Player> players;
 
-    public TableScore(CopyOnWriteArrayList players) {
+    public TableScore(List players) {
         this.players = players;
     }
 
