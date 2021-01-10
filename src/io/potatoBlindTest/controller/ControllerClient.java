@@ -3,6 +3,7 @@ package io.potatoBlindTest.controller;
 import io.potatoBlindTest.gameEngine.ListGames;
 import io.potatoBlindTest.gameEngine.TableScore;
 import io.potatoBlindTest.gameEngine.TurnResult;
+import io.potatoBlindTest.gameEngine.typeOfMedia.TypeOfMedia;
 import io.potatoBlindTest.network.ClientNetwork;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -11,12 +12,14 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.InetAddress;
 
 public class ControllerClient extends Application {
 
     private static Stage primaryStage;
     private static UIController currentController;
     private static ClientNetwork transport;
+    private static String ipAddressServer;
 
 
     public static UIController getCurrentController() {
@@ -162,11 +165,21 @@ public class ControllerClient extends Application {
 
     }
 
-    public static void initializeTurnView(String playerName, File file) {
+    public static void initializeTurnView(String playerName, File file, TypeOfMedia typeOfMedia) {
         FXMLLoader loader = ControllerClient.changeScene("resources/turnView.fxml");
 
         loader.<TurnController>getController().setPlayerName(playerName);
-        loader.<TurnController>getController().setImage(file);
+
+        switch (typeOfMedia) {
+            case IMAGE:
+                loader.<TurnController>getController().setImage(file);
+                break;
+            case AUDIO:
+                loader.<TurnController>getController().setAudio(file);
+                break;
+            default:
+                break;
+        }
 
         ControllerClient.showScene();
     }
@@ -249,7 +262,20 @@ public class ControllerClient extends Application {
         ControllerClient.showScene();
     }
 
+    public static String getIpAddressServer() {
+        return ipAddressServer;
+    }
+
     public static void main(String[] args) {
+        if (args.length != 1) {
+            System.err.println("/!\\ MISSING ARGUMENTS : SERVER IP ADDRESS ... /!\\");
+            return;
+        }
+
+        String PATTERN = "^((0|1\\d?\\d?|2[0-4]?\\d?|25[0-5]?|[3-9]\\d?)\\.){3}(0|1\\d?\\d?|2[0-4]?\\d?|25[0-5]?|[3-9]\\d?)$";
+        if (!args[0].matches(PATTERN)) {
+            return;
+        }
         launch(args);
     }
 

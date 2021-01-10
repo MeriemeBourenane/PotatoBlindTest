@@ -13,6 +13,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -29,6 +32,9 @@ public class TurnController implements UIController {
 
     @FXML
     private ImageView imageView;
+
+    @FXML
+    private MediaView audioView;
 
     @FXML
     void handleKeyPressed(KeyEvent event) {
@@ -65,6 +71,17 @@ public class TurnController implements UIController {
         Image image = new Image(localUrl);
 
         imageView.setImage(image);
+        imageView.setVisible(true);
+    }
+
+    public void setAudio(File file) {
+        String localUrl = null;
+        localUrl = file.toURI().toString();
+        MediaPlayer audioPlayer = new MediaPlayer(new Media(localUrl));
+        audioPlayer.setAutoPlay(true);
+
+        audioView.setMediaPlayer(audioPlayer);
+        setImage(new File(ControllerClient.class.getResource("resources/potato-music-player.gif").getPath()));
     }
 
     @Override
@@ -76,6 +93,9 @@ public class TurnController implements UIController {
                 System.out.println("[DEBUG] Received end of turn");
                 TurnResult turnResult = ((MessageAttachment<TurnResult>) incomingMessage).getAttachment();
                 Platform.runLater(() -> {
+                    if (this.audioView.getMediaPlayer() != null) {
+                        this.audioView.getMediaPlayer().stop();
+                    }
                     ControllerClient.initializeReadyView(playerNameLabel.getText(), turnResult);
                 });
                 break;
@@ -83,6 +103,9 @@ public class TurnController implements UIController {
                 System.out.println("[DEBUG] Received end of game");
                 TableScore tableScore = ((MessageAttachment<TableScore>) incomingMessage).getAttachment();
                 Platform.runLater(() -> {
+                    if (this.audioView.getMediaPlayer() != null) {
+                        this.audioView.getMediaPlayer().stop();
+                    }
                     ControllerClient.initializeScoreView(playerNameLabel.getText(), tableScore);
                 });
                 break;
