@@ -28,7 +28,8 @@ public class GameEngine {
     }
 
     public void selectFolderTypeOfMedia() {
-        File [] listFiles = resourcesFolder.listFiles();
+        // Only select folders
+        File [] listFiles = resourcesFolder.listFiles(file -> file.isDirectory());
 
         Random rand = new Random();
         int selected = rand.nextInt(listFiles.length);
@@ -52,8 +53,8 @@ public class GameEngine {
     }
 
     public File chooseFileInFolder() {
-        File[] listFiles = this.selectedFolder.listFiles();
-        System.out.println("[GameEngine] " + listFiles);
+        // Only select normal files
+        File[] listFiles = this.selectedFolder.listFiles(file -> file.isFile());
         Random rand = new Random();
         int selected;
         do {
