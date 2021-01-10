@@ -78,7 +78,7 @@
 *
 */
 .player-row {
-    -fx-background-color: -fx-color-blindtest-violet;
+    -fx-font-weight: bold;
 }
 
 .first-row {
