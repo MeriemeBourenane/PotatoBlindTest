@@ -1,9 +1,7 @@
 package io.potatoBlindTest.network;
 
 import io.potatoBlindTest.controller.ControllerClient;
-import io.potatoBlindTest.gameEngine.ListGames;
-import io.potatoBlindTest.gameEngine.NameCreator;
-import io.potatoBlindTest.gameEngine.NamePlayer;
+import io.potatoBlindTest.gameEngine.*;
 import io.potatoBlindTest.network.communication.Message;
 import io.potatoBlindTest.network.communication.MessageAttachment;
 import io.potatoBlindTest.network.communication.additionalAttachements.SpecificServerGame;
@@ -255,5 +253,31 @@ public class ClientNetwork {
 
         return ServerMessageType.valueOfLabel(receivedMessage.getCode());
 
+    }
+
+    public ServerMessageType sendReadyPlayerMessage() {
+        Message message = new Message(ClientMessageType.READY_PLAYER.getValue());
+        Message receivedMessage = this.sendMessage(message);
+
+        if (receivedMessage == null) {
+            return null;
+        }
+
+        return  ServerMessageType.valueOfLabel(receivedMessage.getCode());
+    }
+
+    public Boolean sendAnswerMessage(String answer) {
+        Message message = new MessageAttachment<Answer>(ClientMessageType.SUBMIT_ANSWER.getValue(), new Answer(answer));
+        Message receivedMessage = this.sendMessage(message);
+
+        if (receivedMessage == null) {
+            return null;
+        } else if (receivedMessage.getCode() != ServerMessageType.OK.getValue())  {
+            return null;
+        }
+
+        IsCorrectAnswer isCorrectAnswer = ((MessageAttachment<IsCorrectAnswer>) receivedMessage).getAttachment();
+
+        return  isCorrectAnswer.isCorrect();
     }
 }
