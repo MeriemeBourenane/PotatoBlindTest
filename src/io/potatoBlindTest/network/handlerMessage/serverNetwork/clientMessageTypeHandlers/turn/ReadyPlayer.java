@@ -2,6 +2,7 @@ package io.potatoBlindTest.network.handlerMessage.serverNetwork.clientMessageTyp
 
 import io.potatoBlindTest.gameEngine.NamePlayer;
 import io.potatoBlindTest.gameEngine.Player;
+import io.potatoBlindTest.gameEngine.Turn;
 import io.potatoBlindTest.gameEngine.statsGame.StatesGame;
 import io.potatoBlindTest.gameEngine.TurnFile;
 import io.potatoBlindTest.network.ClientHandler;
@@ -35,7 +36,9 @@ public class ReadyPlayer extends SubjectClientHandler implements ClientMessageHa
 
             Thread threadNotify = new Thread(() -> {
                 // Call game engine to choose a file
-                TurnFile turnFile = new TurnFile();
+                Turn turn = ((ServerGame)clientHandlers.getServerNetwork()).getGameEngine().newTurn();
+                TurnFile turnFile = new TurnFile(turn.getFile());
+
                 Message notification = new MessageAttachment<TurnFile>(ServerMessageType.TURN_FILE.getValue(), turnFile);
 
                 for (Player player: ((ServerGame)clientHandlers.getServerNetwork()).getMapPlayerClientHandler().keySet()) {
