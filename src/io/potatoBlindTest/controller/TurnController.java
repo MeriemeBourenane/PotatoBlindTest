@@ -6,6 +6,7 @@ import io.potatoBlindTest.gameEngine.TurnResult;
 import io.potatoBlindTest.network.communication.Message;
 import io.potatoBlindTest.network.communication.MessageAttachment;
 import io.potatoBlindTest.network.handlerMessage.clientNetwork.serverTypesMessages.ServerMessageType;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -35,18 +36,13 @@ public class TurnController implements UIController {
 
         switch (event.getCode()) {
             case ENTER:
-                Player scorePlayer1 = new Player(playerNameLabel.getText(), 12, 2);
-                Player scorePlayer2 = new Player("MagroffPatate", 11, 1);
-                TableScore tableScore = new TableScore(new CopyOnWriteArrayList(List.of(scorePlayer2, scorePlayer1)));
-                ControllerClient.initializeScoreView(playerNameLabel.getText(), tableScore);
-                break;
-            case ESCAPE:
-                ControllerClient.initializeReadyView(playerNameLabel.getText(), new TurnResult("Patate", "MagroffPatate"));
-                break;
-            case C:
-                this.answerField.getStyleClass().add("wrong");
-                this.answerField.clear();
-                break;
+                Boolean response = ControllerClient.getTransport().sendAnswerMessage(this.answerField.getText());
+                if (response) {
+                    this.answerField.getStyleClass().add("right");
+                } else {
+                    this.answerField.getStyleClass().add("wrong");
+                    this.answerField.clear();
+                }
             default:
                 break;
 
