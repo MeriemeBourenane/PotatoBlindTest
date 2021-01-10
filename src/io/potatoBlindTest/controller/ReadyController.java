@@ -44,7 +44,7 @@ public class ReadyController implements UIController {
 
     public void setTurnResult(TurnResult turnResult) {
         if (playerNameLabel.getText().equals(turnResult.getTurnWinner())) {
-            this.wonTurnLabel.setText("Félicitation, vous avez remporté(e) le tour !");
+            this.wonTurnLabel.setText("Félicitation, vous avez remporté le tour !");
         } else {
             this.wonTurnLabel.setText("La réponse était " + turnResult.getAnswer() +
                     " et c'est " + turnResult.getTurnWinner() + " qui l'a trouvé !");
