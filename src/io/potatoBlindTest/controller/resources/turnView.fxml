@@ -9,6 +9,7 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.media.MediaView?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane stylesheets="@common.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.potatoBlindTest.controller.TurnController">
@@ -52,8 +53,9 @@
                         <RowConstraints fillHeight="false" minHeight="10.0" valignment="CENTER" />
                      </rowConstraints>
                      <children>
-                        <ImageView fx:id="imageView" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" />
+                        <ImageView fx:id="imageView" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.halignment="CENTER" />
                         <TextField fx:id="answerField" maxWidth="-Infinity" onKeyReleased="#handleKeyPressed" prefWidth="150.0" promptText="Entrez la réponse" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                        <MediaView fx:id="audioView" fitHeight="150.0" fitWidth="200.0" visible="false" GridPane.halignment="CENTER" />
                      </children>
                   </GridPane>
                </children>
