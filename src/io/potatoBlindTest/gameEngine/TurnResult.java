@@ -20,4 +20,12 @@ public class TurnResult implements Serializable {
     public String getTurnWinner() {
         return turnWinner;
     }
+
+    @Override
+    public String toString() {
+        return "TurnResult{" +
+                "answer='" + answer + '\'' +
+                ", turnWinner='" + turnWinner + '\'' +
+                '}';
+    }
 }
