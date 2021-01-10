@@ -26,6 +26,7 @@ public class ServerGame extends ServerNetwork {
         this.creator = null;
         this.nbReadyPlayer = new AtomicInteger(0);
         this.gameEngine = new GameEngine();
+        this.serverGames = serverGames;
     }
 
     public ConcurrentHashMap<Player, ClientHandler> getMapPlayerClientHandler() {
