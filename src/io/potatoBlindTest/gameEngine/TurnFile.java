@@ -1,12 +1,16 @@
 package io.potatoBlindTest.gameEngine;
 
+import io.potatoBlindTest.gameEngine.typeOfMedia.TypeOfMedia;
+
 import java.io.*;
 import java.util.Arrays;
 
 public class TurnFile implements Serializable {
     private byte[] fileByteArray;
+    private TypeOfMedia typeOfMedia;
 
-    public TurnFile(File file)  {
+    public TurnFile(File file, TypeOfMedia typeOfMedia)  {
+        this.typeOfMedia = typeOfMedia;
         try {
             FileInputStream fileIn = new FileInputStream(file);
 
@@ -30,6 +34,10 @@ public class TurnFile implements Serializable {
         this.fileByteArray = fileByteArray;
     }
 
+    public TypeOfMedia getTypeOfMedia() {
+        return typeOfMedia;
+    }
+
     public byte[] getFileByteArray() {
         return fileByteArray;
     }
@@ -37,7 +45,8 @@ public class TurnFile implements Serializable {
     @Override
     public String toString() {
         return "TurnFile{" +
-                "fileByteArray=" + "toolong" +
+                "fileByteArray= blablabyte" +
+                ", typeOfMedia=" + typeOfMedia +
                 '}';
     }
 }
