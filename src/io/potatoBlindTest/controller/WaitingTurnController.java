@@ -56,7 +56,7 @@ public class WaitingTurnController implements UIController {
                     return;
                 }
                 Platform.runLater(() -> {
-                    ControllerClient.initializeTurnView(playerNameLabel.getText(), finalFile);
+                    ControllerClient.initializeTurnView(playerNameLabel.getText(), finalFile, turnFile.getTypeOfMedia());
                 });
 
                 break;
