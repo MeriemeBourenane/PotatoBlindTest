@@ -276,6 +276,8 @@ public class ControllerClient extends Application {
         if (!args[0].matches(PATTERN)) {
             return;
         }
+        ipAddressServer = args[0];
+        System.out.println(ipAddressServer);
         launch(args);
     }
 
