@@ -126,11 +126,6 @@ public class ClientNetwork {
                     this.condition.signalAll();
                     this.lock.unlock();
                 } else {
-                    // TODO :
-                    //  - message from server
-                    //  - notify ControllerClient of the reception of the messsage using Oberver Pattern
-                    //  - (example : call method setChannels to update channels attribut)
-                    // ServerMessageHandler(messageReceived);
                     System.out.println("[ClientNetwork] code received : " + messageReceived.getCode());
                     if (messageReceived.hasAttachment()) {
                         System.out.println("[ClientNetwork] attachment received : " + ((MessageAttachment)messageReceived).getAttachment());

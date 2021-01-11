@@ -62,7 +62,6 @@ public class CreateGameController implements UIController {
 
     @Override
     public void handleMessage(Message incomingMessage) {
-        // TODO: Handle Player messages
         switch (ServerMessageType.valueOfLabel(incomingMessage.getCode())) {
             case NEW_PLAYER_IN_GAME:
                 NamePlayer newPlayerName = ((MessageAttachment<NamePlayer>) incomingMessage).getAttachment();

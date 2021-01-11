@@ -86,8 +86,6 @@ public class TurnController implements UIController {
 
     @Override
     public void handleMessage(Message incomingMessage) {
-        // TODO: Handle EndTurn and EndGame messages
-
         switch (ServerMessageType.valueOfLabel(incomingMessage.getCode())) {
             case TURN_RESULT:
                 System.out.println("[DEBUG] Received end of turn");

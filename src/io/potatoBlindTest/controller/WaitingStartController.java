@@ -30,7 +30,6 @@ public class WaitingStartController implements UIController {
 
     @Override
     public void handleMessage(Message incomingMessage) {
-        // TODO: handle Start game messages
         switch (ServerMessageType.valueOfLabel(incomingMessage.getCode())) {
             case BEGINNING_GAME: ;
                 Platform.runLater(() -> {

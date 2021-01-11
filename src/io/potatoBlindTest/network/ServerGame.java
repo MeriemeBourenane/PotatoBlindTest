@@ -119,7 +119,6 @@ public class ServerGame extends ServerNetwork {
             }
 
         } else {
-            // TODO: No entry, strange ...
             System.out.println("[ServerGame] Someone has left the game");
 
         }

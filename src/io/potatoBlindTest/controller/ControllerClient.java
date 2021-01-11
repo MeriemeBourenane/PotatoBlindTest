@@ -79,7 +79,6 @@ public class ControllerClient extends Application {
     }
 
     public static void shutdown() {
-        // TODO: Close all resources
         System.out.println("[DEBUG] Closing Application");
         if (transport != null) {
             transport.closeNetwork();
@@ -127,10 +126,8 @@ public class ControllerClient extends Application {
         FXMLLoader loader = ControllerClient.changeScene("resources/joinGameView.fxml");
 
         loader.<SearchGamesController>getController().setPlayerName(playerName);
-        /**
-         * TODO: Replace those values
-         */
-        /**
+
+        /*
          * Request the creation of the game at the server
          */
         try {
@@ -188,9 +185,6 @@ public class ControllerClient extends Application {
         FXMLLoader loader = ControllerClient.changeScene("resources/scoreView.fxml");
 
         loader.<ScoreController>getController().setPlayerName(playerName);
-        /**
-         * TODO: Replace those values
-         */
         loader.<ScoreController>getController().setGameScores(tableScore.getPlayers());
 
         ControllerClient.showScene();
