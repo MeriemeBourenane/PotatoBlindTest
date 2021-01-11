@@ -5,6 +5,7 @@ import io.potatoBlindTest.gameEngine.ListGames;
 import io.potatoBlindTest.gameEngine.Player;
 import io.potatoBlindTest.gameEngine.statsGame.StatesGame;
 import io.potatoBlindTest.network.ClientHandler;
+import io.potatoBlindTest.network.MainServerNetwork;
 import io.potatoBlindTest.network.ServerGame;
 import io.potatoBlindTest.network.ServerNetwork;
 import io.potatoBlindTest.network.communication.Message;
@@ -33,17 +34,12 @@ public class GetAllGames implements ClientMessageHandler<Player> {
 
         for(ServerGame serverGame : clientHandler.getServerNetwork().getServerGames()) {
             if (serverGame.getCreator() != null && serverGame.getStatesGame() == StatesGame.INIT) {
-                try {
-                    Game game = new Game(serverGame.getCreator().getName(),
-                            serverGame.getMapPlayerClientHandler().size(),
-                            InetAddress.getLocalHost().getHostAddress(),
-                            serverGame.getServerSocket().getLocalPort());
-                    listGames.addGameToList(game);
-                    System.out.println("A game : " + game);
-                } catch (UnknownHostException e) {
-                    System.out.println("[GetAllGames] uncknown host ...");
-                    e.printStackTrace();
-                }
+                Game game = new Game(serverGame.getCreator().getName(),
+                        serverGame.getMapPlayerClientHandler().size(),
+                        MainServerNetwork.getIpAddressServer(),
+                        serverGame.getServerSocket().getLocalPort());
+                listGames.addGameToList(game);
+                System.out.println("A game : " + game);
             }
         }
         messageToSend = new MessageAttachment<ListGames>(ServerMessageType.OK.getValue(), listGames);

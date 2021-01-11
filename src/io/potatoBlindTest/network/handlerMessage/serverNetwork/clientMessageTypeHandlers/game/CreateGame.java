@@ -3,6 +3,7 @@ package io.potatoBlindTest.network.handlerMessage.serverNetwork.clientMessageTyp
 import io.potatoBlindTest.gameEngine.Player;
 import io.potatoBlindTest.gameEngine.statsGame.StatesGame;
 import io.potatoBlindTest.network.ClientHandler;
+import io.potatoBlindTest.network.MainServerNetwork;
 import io.potatoBlindTest.network.ServerGame;
 import io.potatoBlindTest.network.ServerNetwork;
 import io.potatoBlindTest.network.communication.Message;
@@ -34,15 +35,9 @@ public class CreateGame implements ClientMessageHandler<Player> {
         } else {
             clientHandler.getServerNetwork().addServerGameToList(newServerGame);
 
-            try{
-                SpecificServerGame specificServerGame = new SpecificServerGame(newServerGame.getServerSocket().getLocalPort(),
-                        InetAddress.getLocalHost().getHostAddress());
-                messageToSend = new MessageAttachment<SpecificServerGame>(ServerMessageType.OK.getValue(), specificServerGame);
-            } catch (UnknownHostException e) {
-                System.out.println("Unknown host name ... ");
-                e.printStackTrace();
-                messageToSend = new Message(ServerMessageType.ERROR_SERVER.getValue());
-            }
+            SpecificServerGame specificServerGame = new SpecificServerGame(newServerGame.getServerSocket().getLocalPort(),
+                        MainServerNetwork.getIpAddressServer());
+            messageToSend = new MessageAttachment<SpecificServerGame>(ServerMessageType.OK.getValue(), specificServerGame);
         }
 
         System.out.println("Message to send : " + messageToSend.getCode() + ((MessageAttachment)messageToSend).getAttachment());
