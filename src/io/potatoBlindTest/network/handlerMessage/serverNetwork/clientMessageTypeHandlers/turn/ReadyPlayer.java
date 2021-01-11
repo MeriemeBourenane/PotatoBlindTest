@@ -44,13 +44,16 @@ public class ReadyPlayer extends SubjectClientHandler implements ClientMessageHa
                 Message notification = new MessageAttachment<TurnFile>(ServerMessageType.TURN_FILE.getValue(), turnFile);
 
                 for (Player player: ((ServerGame)clientHandlers.getServerNetwork()).getMapPlayerClientHandler().keySet()) {
-                    try {
-                        this.notifyOne(((ServerGame)clientHandlers.getServerNetwork()).getMapPlayerClientHandler()
-                                        .get(player),
-                                notification);
-                    } catch (Exception e) {
-                        System.out.println("[ReadyPlayer]->[thread notify] Can't notify the players ...");
-                    }
+                    Thread threadNotify_client = new Thread(() -> {
+                        try {
+                            this.notifyOne(((ServerGame) clientHandlers.getServerNetwork()).getMapPlayerClientHandler()
+                                            .get(player),
+                                    notification);
+                        } catch (Exception e) {
+                            System.out.println("[ReadyPlayer]->[thread notify] Can't notify the players ...");
+                        }
+                    });
+                    threadNotify_client.start();
                 }
 
             });
